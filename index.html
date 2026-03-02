@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notre Boutique | Catalogue</title>
+    
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/catalog.css">
+    <link rel="stylesheet" href="css/components/card.css">
+</head>
+<body>
+
+    <header>
+        <div class="logo">MaBoutique</div>
+        <nav>
+            <a href="index.html">Catalogue</a>
+            <div class="cart-icon">
+                🛒 Panier (<span id="cart-count">0</span>)
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Notre Catalogue de Produits</h1>
+
+        <section class="controls-section">
+            <div class="filters">
+                <label for="color-filter">Filtrer par couleur :</label>
+                <select id="color-filter">
+                    <option value="all">Toutes les couleurs</option>
+                    <option value="Blanc">Blanc</option>
+                    <option value="Noir">Noir</option>
+                    <option value="Marine">Marine</option>
+                    <option value="Rouge">Rouge</option>
+                    </select>
+            </div>
+
+            <div class="sorting">
+                <label for="price-sort">Trier par :</label>
+                <select id="price-sort">
+                    <option value="default">Pertinence</option>
+                    <option value="asc">Prix croissant</option>
+                    <option value="desc">Prix décroissant</option>
+                </select>
+            </div>
+        </section>
+
+        <section id="catalog-container" class="product-grid">
+            </section>
+    </main>
+
+    <script type="module" src="js/catalog.js"></script>
+</body>
+</html>
