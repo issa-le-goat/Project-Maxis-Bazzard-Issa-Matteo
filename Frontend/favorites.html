@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mes Favoris — MAXIBAZARD</title>
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/favorites.css">
+</head>
+<body>
+
+  <!-- ── NAVBAR ──────────────────────────────────────────── -->
+  <nav class="navbar" role="navigation">
+    <div class="navbar__inner">
+      <a href="index.html" class="navbar__logo">MAXI<span>BAZARD</span></a>
+
+      <button class="navbar__burger" id="burger-btn" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+      <div class="navbar__links" id="nav-links">
+        <a href="index.html" class="navbar__link">🛍️ Catalogue</a>
+        <a href="favorites.html" class="navbar__link navbar__link--active">
+          ♥ Favoris
+          <span class="navbar__badge navbar__fav-badge" id="fav-count">0</span>
+        </a>
+        <a href="cart.html" class="navbar__link">
+          🛒 Panier
+          <span class="navbar__badge" id="cart-count">0</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── CONTENU ──────────────────────────────────────────── -->
+  <main class="fav-page">
+    <div class="container">
+      <div class="fav-page-header">
+        <h1 class="fav-page-title">Mes <span>Favoris</span></h1>
+        <span class="fav-count-badge" id="fav-total-badge">0</span>
+      </div>
+
+      <div class="product-grid" id="fav-grid"></div>
+    </div>
+  </main>
+
+  <!-- ── FOOTER ───────────────────────────────────────────── -->
+  <footer class="footer">
+    <p>© 2025 <strong>MAXIBAZARD</strong> — L'insolite, c'est notre métier.</p>
+  </footer>
+
+  <script type="module" src="js/favoritesPage.js"></script>
+  <script>
+    document.getElementById('burger-btn').addEventListener('click', function () {
+      const links = document.getElementById('nav-links');
+      const open  = links.classList.toggle('is-open');
+      this.setAttribute('aria-expanded', open);
+    });
+  </script>
+</body>
+</html>

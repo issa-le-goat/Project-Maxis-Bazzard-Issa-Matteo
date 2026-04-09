@@ -1,179 +1,299 @@
-// js/product.js
+// =========================================================
+// MAXIBAZARD — Page Produit
+// =========================================================
 import { products } from './data.js';
+import { buildPriceHTML, truncate, getProductIdFromUrl, showToast, formatPrice, getFinalPrice } from './utils/helpers.js';
+import { addToCart, updateCartBadge, getRealStock } from './utils/cart.js';
+import { isFavorite, toggleFavorite } from './utils/favorites.js';
 
-// 1. RÉCUPÉRATION DE L'ID DANS L'URL
-const urlParams = new URLSearchParams(window.location.search);
-const productId = urlParams.get('id');
+// ── DOM ────────────────────────────────────────────────────
+const productContainer = document.getElementById('product-container');
+const similarContainer = document.getElementById('similar-container');
 
-// On cherche le produit correspondant dans notre fausse base de données
-const product = products.find(p => p.id === productId);
+// ── INIT ───────────────────────────────────────────────────
+function init() {
+  updateCartBadge();
+  document.getElementById('fav-count').textContent = JSON.parse(localStorage.getItem('maxibazard_favorites') || '[]').length;
 
-const productContainer = document.getElementById('single-product-container');
+  const id = getProductIdFromUrl();
+  const product = products.find(p => p.id === id);
 
-// Si l'utilisateur modifie l'URL avec un mauvais ID
-if (!product) {
-    productContainer.innerHTML = `<h2>Produit introuvable.</h2><a href="index.html">Retourner au catalogue</a>`;
-} else {
-    renderProductDetails(product);
-    renderSimilarProducts(product);
-}
-
-// 2. FONCTION PRINCIPALE : AFFICHER LE PRODUIT
-function renderProductDetails(product) {
-    // Calcul du prix final
-    let finalPrice = product.price;
-    if (product.discount > 0) {
-        finalPrice = product.price - (product.price * (product.discount / 100));
-    }
-
-    // Gestion de la description tronquée à 150 caractères (Brief)
-    const isLongText = product.description.length > 150;
-    const shortDesc = isLongText ? product.description.substring(0, 150) + "..." : product.description;
-
-    // Génération des options de couleurs et tailles
-    const colorOptions = product.characteristics.colors.map(color => `<option value="${color}">${color}</option>`).join('');
-    const sizeOptions = product.characteristics.sizes.map(size => `<option value="${size}">${size}</option>`).join('');
-
-    // Génération des miniatures pour le carrousel
-    const thumbnailsHTML = product.images.map((img, index) => `
-        <img src="${img}" class="thumbnail ${index === 0 ? 'active' : ''}" data-index="${index}" alt="Miniature ${index + 1}">
-    `).join('');
-
-    // Injection du HTML
+  if (!product) {
     productContainer.innerHTML = `
-        <div class="product-gallery">
-            <div class="main-image-wrapper">
-                <button id="prev-img" class="carousel-btn">❮</button>
-                <img id="main-product-image" src="${product.images[0]}" alt="${product.name}">
-                <button id="next-img" class="carousel-btn">❯</button>
-            </div>
-            <div class="thumbnails-container">
-                ${thumbnailsHTML}
-            </div>
+      <div class="not-found">
+        <h2>Produit introuvable 😕</h2>
+        <p>Cet article n'existe pas dans notre catalogue.</p>
+        <a href="index.html" class="btn btn--primary">Retour au catalogue</a>
+      </div>`;
+    return;
+  }
+
+  renderProduct(product);
+  renderSimilar(product);
+  // Breadcrumb et titre
+  const bc = document.getElementById('breadcrumb-name');
+  if (bc) bc.textContent = product.name;
+  document.title = `${product.name} — MAXIBAZARD`;
+}
+
+// ── AFFICHAGE PRODUIT ──────────────────────────────────────
+function renderProduct(p) {
+  const stock = getRealStock(p);
+  const final = getFinalPrice(p.price, p.discount);
+  const isFav = isFavorite(p.id);
+  const isOutOfStock = stock === 0;
+
+  // Carrousel miniatures
+  const thumbsHTML = p.images.map((img, i) => `
+    <button class="thumb${i === 0 ? ' thumb--active' : ''}" data-index="${i}" aria-label="Image ${i + 1}">
+      <img src="${img}" alt="${p.name} vue ${i + 1}" loading="lazy">
+    </button>`).join('');
+
+  // Caractéristiques
+  const charsHTML = Object.entries(p.characteristics).map(([key, val]) => {
+    const labels = { gender: 'Genre', type: 'Type', colors: 'Couleurs', sizes: 'Tailles', material: 'Matière', dimensions: 'Dimensions' };
+    const display = Array.isArray(val) ? val.join(', ') : val;
+    return `<tr><th>${labels[key] || key}</th><td>${display}</td></tr>`;
+  }).join('');
+
+  // Options couleurs
+  const colorsHTML = p.characteristics.colors.map((c, i) => `
+    <button class="color-btn${i === 0 ? ' color-btn--selected' : ''}" data-color="${c}" style="--c:${colorToHex(c)}" title="${c}"></button>`).join('');
+
+  // Options tailles
+  const sizesHTML = p.characteristics.sizes.map((s, i) => `
+    <button class="size-btn${i === 0 ? ' size-btn--selected' : ''}" data-size="${s}">${s}</button>`).join('');
+
+  productContainer.innerHTML = `
+    <div class="product-layout">
+
+      <!-- GALERIE -->
+      <div class="product-gallery">
+        <div class="gallery-main">
+          <button class="carousel-arrow carousel-arrow--prev" id="prev-btn" aria-label="Précédent">&#8592;</button>
+          <div class="gallery-main-img-wrap">
+            <img id="main-img" src="${p.images[0]}" alt="${p.name}" class="gallery-main-img">
+            ${p.discount > 0 ? `<span class="gallery-badge">-${p.discount}%</span>` : ''}
+          </div>
+          <button class="carousel-arrow carousel-arrow--next" id="next-btn" aria-label="Suivant">&#8594;</button>
+        </div>
+        <div class="gallery-thumbs">${thumbsHTML}</div>
+      </div>
+
+      <!-- INFOS -->
+      <div class="product-info">
+        <span class="product-ref">Réf : ${p.id}</span>
+        <h1 class="product-title">${p.name}</h1>
+
+        <!-- Prix -->
+        <div class="product-price-block">
+          ${p.discount > 0
+            ? `<span class="price-old">${formatPrice(p.price, p.currency)}</span>
+               <span class="price-new">${formatPrice(final, p.currency)}</span>
+               <span class="badge-promo">-${p.discount}%</span>`
+            : `<span class="price-main">${formatPrice(p.price, p.currency)}</span>`
+          }
         </div>
 
-        <div class="product-info">
-            <span class="ref">Réf: ${product.id}</span>
-            <h1>${product.name}</h1>
-            
-            <div class="price-block">
-                ${product.discount > 0 ? `<span class="old-price">${product.price.toFixed(2)} ${product.currency}</span>` : ''}
-                <span class="current-price">${finalPrice.toFixed(2)} ${product.currency}</span>
-            </div>
-
-            <div class="description-block">
-                <p id="desc-text">${shortDesc}</p>
-                ${isLongText ? `<button id="read-more-btn" class="text-btn">Lire la suite</button>` : ''}
-            </div>
-
-            <div class="characteristics">
-                <p><strong>Genre :</strong> ${product.characteristics.gender}</p>
-                <p><strong>Type :</strong> ${product.characteristics.type}</p>
-                
-                <div class="selectors">
-                    <div>
-                        <label for="color-select">Couleur :</label>
-                        <select id="color-select">${colorOptions}</select>
-                    </div>
-                    <div>
-                        <label for="size-select">Taille :</label>
-                        <select id="size-select">${sizeOptions}</select>
-                    </div>
-                </div>
-            </div>
-
-            <div class="add-to-cart-block">
-                <input type="number" id="qty" value="1" min="1" max="${product.stock}">
-                <button id="add-to-cart-btn" class="primary-btn">Ajouter au panier</button>
-            </div>
-            <p class="stock-info">En stock : ${product.stock} unités</p>
+        <!-- Description -->
+        <div class="product-desc" id="desc-block">
+          <p id="desc-text">${truncate(p.description, 150)}</p>
+          ${p.description.length > 150
+            ? `<button class="btn-readmore" id="readmore-btn">Lire la suite ▾</button>`
+            : ''}
         </div>
-    `;
 
-    // --- ACTIVATION DES FONCTIONNALITÉS INTERACTIVES ---
-    setupDescriptionToggle(product.description, shortDesc);
-    setupCarousel(product.images);
+        <!-- Caractéristiques -->
+        <div class="product-chars">
+          <h3>Caractéristiques</h3>
+          <table class="chars-table"><tbody>${charsHTML}</tbody></table>
+        </div>
+
+        <!-- Couleurs -->
+        <div class="product-option">
+          <label class="option-label">Couleur : <strong id="selected-color-label">${p.characteristics.colors[0]}</strong></label>
+          <div class="color-picker">${colorsHTML}</div>
+        </div>
+
+        <!-- Tailles -->
+        <div class="product-option">
+          <label class="option-label">Taille : <strong id="selected-size-label">${p.characteristics.sizes[0]}</strong></label>
+          <div class="size-picker">${sizesHTML}</div>
+        </div>
+
+        <!-- Quantité & Panier -->
+        <div class="product-add">
+          <div class="qty-control">
+            <button class="qty-btn" id="qty-down">−</button>
+            <input type="number" id="qty-input" value="1" min="1" max="${stock}" class="qty-input">
+            <button class="qty-btn" id="qty-up">+</button>
+          </div>
+          <button class="btn btn--primary btn--lg" id="add-cart-btn" ${isOutOfStock ? 'disabled' : ''}>
+            ${isOutOfStock ? '😢 Épuisé' : '🛒 Ajouter au panier'}
+          </button>
+          <button class="btn-fav-lg${isFav ? ' btn-fav-lg--active' : ''}" id="fav-btn" data-id="${p.id}">
+            ${isFav ? '♥ Dans les favoris' : '♡ Ajouter aux favoris'}
+          </button>
+        </div>
+
+        <p class="stock-info ${stock <= 5 && stock > 0 ? 'stock-info--low' : ''}">
+          ${isOutOfStock ? '❌ Rupture de stock' : stock <= 5 ? `⚠️ Plus que ${stock} en stock !` : `✅ En stock (${stock} disponibles)`}
+        </p>
+      </div>
+    </div>
+  `;
+
+  // Init interactions
+  setupCarousel(p.images);
+  setupDescription(p.description);
+  setupColorPicker(p);
+  setupSizePicker();
+  setupQty(stock);
+  setupAddToCart(p);
+  setupFavorite(p);
 }
 
-// 3. LOGIQUE : DESCRIPTION TRONQUÉE
-function setupDescriptionToggle(fullDesc, shortDesc) {
-    const btn = document.getElementById('read-more-btn');
-    const textNode = document.getElementById('desc-text');
-    let isExpanded = false;
+// ── CARROUSEL ─────────────────────────────────────────────
+function setupCarousel(images) {
+  let current = 0;
+  const mainImg = document.getElementById('main-img');
+  const prevBtn = document.getElementById('prev-btn');
+  const nextBtn = document.getElementById('next-btn');
+  const thumbs  = document.querySelectorAll('.thumb');
 
-    if (btn) {
-        btn.addEventListener('click', () => {
-            isExpanded = !isExpanded;
-            textNode.textContent = isExpanded ? fullDesc : shortDesc;
-            btn.textContent = isExpanded ? "Réduire" : "Lire la suite";
-        });
-    }
+  function goTo(idx) {
+    current = (idx + images.length) % images.length;
+    mainImg.src = images[current];
+    thumbs.forEach((t, i) => t.classList.toggle('thumb--active', i === current));
+  }
+
+  prevBtn?.addEventListener('click', () => goTo(current - 1));
+  nextBtn?.addEventListener('click', () => goTo(current + 1));
+  thumbs.forEach(t => t.addEventListener('click', () => goTo(parseInt(t.dataset.index))));
 }
 
-// 4. LOGIQUE : CARROUSEL D'IMAGES
-function setupCarousel(imagesArray) {
-    let currentIndex = 0;
-    const mainImg = document.getElementById('main-product-image');
-    const prevBtn = document.getElementById('prev-img');
-    const nextBtn = document.getElementById('next-img');
-    const thumbnails = document.querySelectorAll('.thumbnail');
-
-    function updateImage(index) {
-        mainImg.src = imagesArray[index];
-        thumbnails.forEach(t => t.classList.remove('active'));
-        thumbnails[index].classList.add('active');
-        currentIndex = index;
-    }
-
-    prevBtn.addEventListener('click', () => {
-        const newIndex = currentIndex === 0 ? imagesArray.length - 1 : currentIndex - 1;
-        updateImage(newIndex);
-    });
-
-    nextBtn.addEventListener('click', () => {
-        const newIndex = currentIndex === imagesArray.length - 1 ? 0 : currentIndex + 1;
-        updateImage(newIndex);
-    });
-
-    thumbnails.forEach(thumb => {
-        thumb.addEventListener('click', (e) => {
-            updateImage(parseInt(e.target.dataset.index));
-        });
-    });
+// ── DESCRIPTION ───────────────────────────────────────────
+function setupDescription(fullDesc) {
+  const btn  = document.getElementById('readmore-btn');
+  const text = document.getElementById('desc-text');
+  if (!btn) return;
+  let expanded = false;
+  btn.addEventListener('click', () => {
+    expanded = !expanded;
+    text.textContent = expanded ? fullDesc : truncate(fullDesc, 150);
+    btn.textContent  = expanded ? 'Réduire ▴' : 'Lire la suite ▾';
+  });
 }
 
-// 5. LOGIQUE : PRODUITS SIMILAIRES
-function renderSimilarProducts(currentProduct) {
-    const similarContainer = document.getElementById('similar-container');
-    
-    // On cherche les produits du même type, en excluant le produit actuel
-    const similar = products.filter(p => 
-        p.characteristics.type === currentProduct.characteristics.type && p.id !== currentProduct.id
-    ).slice(0, 4); // On en garde 4 maximum
-
-    if (similar.length === 0) {
-        similarContainer.innerHTML = "<p>Aucun produit similaire pour le moment.</p>";
-        return;
-    }
-
-    // On réutilise la même logique d'affichage que sur la page catalogue
-    // (Dans un vrai projet, on mettrait cette fonction dans un fichier utils.js pour éviter de la dupliquer)
-    similar.forEach(p => {
-        const card = document.createElement('article');
-        card.classList.add('product-card');
-        card.innerHTML = `
-            <a href="product.html?id=${p.id}" class="card-link">
-                <div class="image-container">
-                    <img src="${p.images[0]}" alt="${p.name}" class="img-main">
-                </div>
-                <div class="card-content">
-                    <h3>${p.name}</h3>
-                    <div class="price-container">
-                        <span class="price">${p.price.toFixed(2)} ${p.currency}</span>
-                    </div>
-                </div>
-            </a>
-        `;
-        similarContainer.appendChild(card);
+// ── SÉLECTEUR COULEUR ─────────────────────────────────────
+function setupColorPicker(product) {
+  const btns  = document.querySelectorAll('.color-btn');
+  const label = document.getElementById('selected-color-label');
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      btns.forEach(b => b.classList.remove('color-btn--selected'));
+      btn.classList.add('color-btn--selected');
+      label.textContent = btn.dataset.color;
     });
+  });
 }
+
+// ── SÉLECTEUR TAILLE ──────────────────────────────────────
+function setupSizePicker() {
+  const btns  = document.querySelectorAll('.size-btn');
+  const label = document.getElementById('selected-size-label');
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      btns.forEach(b => b.classList.remove('size-btn--selected'));
+      btn.classList.add('size-btn--selected');
+      label.textContent = btn.dataset.size;
+    });
+  });
+}
+
+// ── QUANTITÉ ──────────────────────────────────────────────
+function setupQty(stock) {
+  const input   = document.getElementById('qty-input');
+  const downBtn = document.getElementById('qty-down');
+  const upBtn   = document.getElementById('qty-up');
+
+  downBtn?.addEventListener('click', () => {
+    input.value = Math.max(1, parseInt(input.value) - 1);
+  });
+  upBtn?.addEventListener('click', () => {
+    input.value = Math.min(stock, parseInt(input.value) + 1);
+  });
+  input?.addEventListener('change', () => {
+    input.value = Math.min(stock, Math.max(1, parseInt(input.value) || 1));
+  });
+}
+
+// ── AJOUTER AU PANIER ────────────────────────────────────
+function setupAddToCart(product) {
+  const btn = document.getElementById('add-cart-btn');
+  btn?.addEventListener('click', () => {
+    const qty   = parseInt(document.getElementById('qty-input').value);
+    const color = document.querySelector('.color-btn--selected')?.dataset.color || product.characteristics.colors[0];
+    const size  = document.querySelector('.size-btn--selected')?.dataset.size  || product.characteristics.sizes[0];
+    const result = addToCart(product, qty, color, size);
+    showToast(result.message, result.success ? 'success' : 'error');
+  });
+}
+
+// ── FAVORIS ───────────────────────────────────────────────
+function setupFavorite(product) {
+  const btn = document.getElementById('fav-btn');
+  btn?.addEventListener('click', () => {
+    const added = toggleFavorite(product.id);
+    btn.textContent = added ? '♥ Dans les favoris' : '♡ Ajouter aux favoris';
+    btn.classList.toggle('btn-fav-lg--active', added);
+    document.getElementById('fav-count').textContent = JSON.parse(localStorage.getItem('maxibazard_favorites') || '[]').length;
+    showToast(added ? 'Ajouté aux favoris !' : 'Retiré des favoris.', added ? 'success' : 'info');
+  });
+}
+
+// ── PRODUITS SIMILAIRES ───────────────────────────────────
+function renderSimilar(current) {
+  const similar = products
+    .filter(p => p.characteristics.type === current.characteristics.type && p.id !== current.id)
+    .slice(0, 4);
+
+  if (!similar.length) {
+    document.querySelector('.similar-section')?.remove();
+    return;
+  }
+
+  similar.forEach(p => {
+    const card = document.createElement('article');
+    card.className = `product-card${p.discount > 0 ? ' product-card--promo' : ''}`;
+    card.innerHTML = `
+      <a href="product.html?id=${p.id}" class="card-img-link">
+        <div class="card-img-wrap">
+          ${p.discount > 0 ? `<span class="card-badge">-${p.discount}%</span>` : ''}
+          <img src="${p.images[0]}" alt="${p.name}" class="card-img card-img--main" loading="lazy">
+          ${p.images[1] ? `<img src="${p.images[1]}" alt="${p.name} vue 2" class="card-img card-img--hover" loading="lazy">` : ''}
+        </div>
+      </a>
+      <div class="card-body">
+        <span class="card-type">${p.characteristics.type}</span>
+        <h3 class="card-name"><a href="product.html?id=${p.id}">${p.name}</a></h3>
+        <div class="card-price">${buildPriceHTML(p)}</div>
+      </div>`;
+    similarContainer.appendChild(card);
+  });
+}
+
+// ── COULEUR → HEX ─────────────────────────────────────────
+function colorToHex(name) {
+  const map = {
+    'Blanc': '#FFFFFF','Noir': '#111111','Rouge': '#E63946','Bleu': '#457B9D',
+    'Vert': '#2D6A4F','Jaune': '#FFD23F','Rose': '#FF85A1','Lilas': '#C77DFF',
+    'Beige': '#D4A574','Gris': '#9B9B9B','Orange': '#F4A261','Kaki': '#8B8456',
+    'Marine': '#1D3557','Bleu Ciel': '#90E0EF','Naturel': '#D4A373',
+    'Vert Forêt': '#1B4332','Bleu Électrique': '#4361EE','Crème': '#FFF8E7',
+    'Multicolore':'#FF6B35',
+  };
+  return map[name] || '#CCCCCC';
+}
+
+init();

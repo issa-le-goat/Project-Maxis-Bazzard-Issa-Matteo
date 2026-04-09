@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Produit — MAXIBAZARD</title>
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/product.css">
+</head>
+<body>
+
+  <!-- ── NAVBAR ──────────────────────────────────────────── -->
+  <nav class="navbar" role="navigation">
+    <div class="navbar__inner">
+      <a href="index.html" class="navbar__logo">MAXI<span>BAZARD</span></a>
+
+      <button class="navbar__burger" id="burger-btn" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+      <div class="navbar__links" id="nav-links">
+        <a href="index.html" class="navbar__link">🛍️ Catalogue</a>
+        <a href="favorites.html" class="navbar__link">
+          ♥ Favoris
+          <span class="navbar__badge navbar__fav-badge" id="fav-count">0</span>
+        </a>
+        <a href="cart.html" class="navbar__link">
+          🛒 Panier
+          <span class="navbar__badge" id="cart-count">0</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── BREADCRUMB ───────────────────────────────────────── -->
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Fil d'ariane">
+      <a href="index.html">Catalogue</a>
+      <span>›</span>
+      <span id="breadcrumb-name">Produit</span>
+    </nav>
+  </div>
+
+  <!-- ── CONTENU PRODUIT ──────────────────────────────────── -->
+  <main class="product-page">
+    <div class="container">
+      <div id="product-container"></div>
+    </div>
+  </main>
+
+  <!-- ── PRODUITS SIMILAIRES ──────────────────────────────── -->
+  <section class="similar-section" id="similar-section">
+    <div class="container">
+      <h2 class="similar-section__title">Vous aimerez <span>aussi</span></h2>
+      <div class="product-grid" id="similar-container"></div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ───────────────────────────────────────────── -->
+  <footer class="footer">
+    <p>© 2025 <strong>MAXIBAZARD</strong> — L'insolite, c'est notre métier.</p>
+  </footer>
+
+  <script type="module" src="js/product.js"></script>
+  <script>
+    document.getElementById('burger-btn').addEventListener('click', function () {
+      const links = document.getElementById('nav-links');
+      const open  = links.classList.toggle('is-open');
+      this.setAttribute('aria-expanded', open);
+    });
+    // Mise à jour du breadcrumb dynamique
+    document.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get('id');
+      if (id) {
+        // Le JS produit mettra à jour le titre de la page via le module
+        document.title = `Produit ${id} — MAXIBAZARD`;
+      }
+    });
+  </script>
+</body>
+</html>
