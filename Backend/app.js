@@ -1,14 +1,26 @@
 const express = require('express');
+const cors = require('cors');
+const path = require('path');
+const fs = require('fs');
 
 const app = express();
 const port = 3000;
 
-const cors = require('cors');
-app.use(cors({
-    origin: '*'
-}))
+// Autoriser le CORS
+app.use(cors({ origin: '*' }));
 
+// --- VÉRIFICATION DES CHEMINS ---
+const directoryToServe = path.join(__dirname, 'assets');
+console.log("------------------------------------------");
+console.log("Dossier cherché :", directoryToServe);
+console.log("Le dossier existe-t-il ? :", fs.existsSync(directoryToServe));
+console.log("------------------------------------------");
+
+// Configuration du dossier statique
+app.use('/assets', express.static(directoryToServe));
+
+// Routes API
 const objectRouter = require('./router/Object');
-app.use(objectRouter);
+app.use('/api', objectRouter);
 
-app.listen(port, () => console.log(`Server is running on port ${port}`));
+app.listen(port, () => console.log(`🚀 Server running on http://localhost:${port}`));
