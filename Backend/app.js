@@ -9,6 +9,8 @@ const port = 3000;
 // Autoriser le CORS
 app.use(cors({ origin: '*' }));
 
+app.use(express.json()); // Permet de lire le req.body
+
 // --- VÉRIFICATION DES CHEMINS ---
 const directoryToServe = path.join(__dirname, 'assets');
 console.log("------------------------------------------");
