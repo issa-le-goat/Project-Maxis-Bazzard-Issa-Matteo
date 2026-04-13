@@ -452,3 +452,21 @@ main { flex: 1; }
   .product-grid { grid-template-columns: 1fr; }
   .container { padding: 0 16px; }
 }
+
+/* ── VARIANTES COULEUR (catalogue) ──────────────────────── */
+.card-variants {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 2px;
+}
+.variant-pill {
+  font-size: .7rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 20px;
+  background: var(--color-bg);
+  border: 1.5px solid var(--color-border);
+  color: var(--color-muted);
+  white-space: nowrap;
+}

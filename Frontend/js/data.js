@@ -1,494 +1,689 @@
 // =========================================================
-// MAXIBAZARD — Catalogue des produits
+// MAXIBAZARD — Données produits (structure conforme à la BDD)
+// Schéma : objects → couleur_objet → images_objet + taille_objets
 // =========================================================
 
 export const products = [
-  // ── MINI ASPIRATEUR ──────────────────────────────────────
+
+  // ── ID 1 : Beurre en Stick ────────────────────────────────
   {
-    id: "REF-001",
-    name: "Mini Aspirateur USB Blanc",
-    description: "Révolutionnez votre bureau avec ce mini aspirateur USB compact et ultra-silencieux. Conçu pour aspirer miettes, poussières et débris entre les touches de votre clavier, il se branche directement sur un port USB. Léger (80g), il se range discrètement dans un tiroir. Inclut 2 embouts interchangeables. La solution propre pour un espace de travail impeccable.",
-    stock: 42,
-    price: 29.99,
-    discount: 0,
-    currency: "€",
-    images: [
-      "assets/images/MiniAspi/Aspi_1.jpg",
-      "assets/images/MiniAspi/Aspi_2.jpg",
-      "assets/images/MiniAspi/Aspi_3.jpg"
-    ],
-    characteristics: {
-      gender: "Unisexe",
-      type: "Aspirateur",
-      colors: ["Blanc", "Gris"],
-      sizes: ["Unique"],
-      material: "Plastique ABS",
-      dimensions: "15 × 5 × 5 cm"
-    }
-  },
-  {
-    id: "REF-002",
-    name: "Mini Aspirateur USB Rose Pastel",
-    description: "Même puissance d'aspiration que notre modèle standard, dans une teinte rose pastel qui illumine votre bureau. Ce mini aspirateur USB s'accompagne d'embouts colorés assortis et d'un câble tressé de 80 cm ultra-résistant. Garanti sans bruit parasite grâce à son moteur brushless. Un cadeau idéal pour ceux qui conjuguent esthétique et fonctionnalité au quotidien.",
-    stock: 18,
-    price: 29.99,
-    discount: 15,
-    currency: "€",
-    images: [
-      "assets/images/MiniAspi/Aspi_4.jpg",
-      "assets/images/MiniAspi/Aspi_5.jpg",
-      "assets/images/MiniAspi/Aspi_6.jpg"
-    ],
-    characteristics: {
-      gender: "Unisexe",
-      type: "Aspirateur",
-      colors: ["Rose", "Lilas"],
-      sizes: ["Unique"],
-      material: "Plastique ABS",
-      dimensions: "15 × 5 × 5 cm"
-    }
-  },
-  {
-    id: "REF-003",
-    name: "Mini Aspirateur Édition Collector",
-    description: "Notre aspirateur de bureau dans une finition collector bicolore premium. Équipé d'un filtre HEPA lavable et d'une aspiration renforcée 3x plus puissante que les modèles standard. Idéal pour les créatifs, les gamers et tous ceux qui méritent le meilleur. Livré dans son écrin rigide avec 3 embouts spéciaux (clavier, écran, mobilier). Satisfaction garantie ou remboursé.",
-    stock: 9,
-    price: 34.99,
-    discount: 0,
-    currency: "€",
-    images: [
-      "assets/images/MiniAspi/Aspi_7.jpg",
-      "assets/images/MiniAspi/Aspi_1.jpg",
-      "assets/images/MiniAspi/Aspi_4.jpg"
-    ],
-    characteristics: {
-      gender: "Unisexe",
-      type: "Aspirateur",
-      colors: ["Bicolore", "Édition Limitée"],
-      sizes: ["Unique"],
-      material: "Plastique premium",
-      dimensions: "15 × 5 × 5 cm"
-    }
+    id: 1,
+    nom: "Beurre en Stick Original",
+    prix: 9,
+    reduction: 15,
+    genre: "Cuisine",
+    description: "Découvrez la révolution du petit-déjeuner avec le Beurre en Stick Original. Conçu pour ceux qui détestent les miettes dans le beurrier et les couteaux sales, ce stick ergonomique vous permet de tartiner vos toasts, biscottes ou épis de maïs avec une facilité déconcertante. Son format compact et protecteur préserve toute la fraîcheur et l'onctuosité du beurre. Que vous soyez pressé le matin ou adepte du camping, c'est l'accessoire culinaire indispensable pour un dosage précis et sans gâchis.",
+    couleurs: [
+      {
+        id: 1,
+        nom: "Beurre Doux",
+        images: [
+          { chemin: "assets/images/BeureCole/BeureColle_Doux_1.jpg", isMain: true },
+          { chemin: "assets/images/BeureCole/BeureColle_Doux_2.jpg", isMain: false }
+        ],
+        tailles: [
+          { nom: "Format Voyage 20g",    stock: 50  },
+          { nom: "Format Standard 40g",  stock: 100 },
+          { nom: "Format Familial 100g", stock: 30  }
+        ]
+      },
+      {
+        id: 2,
+        nom: "Beurre Salé",
+        images: [
+          { chemin: "assets/images/BeureCole/BeureColle_Sale_1.jpg", isMain: true },
+          { chemin: "assets/images/BeureCole/BeureColle_Sale_2.jpg", isMain: false }
+        ],
+        tailles: [
+          { nom: "Format Voyage 20g",    stock: 45 },
+          { nom: "Format Standard 40g",  stock: 80 },
+          { nom: "Format Familial 100g", stock: 25 }
+        ]
+      }
+    ]
   },
 
-  // ── PARAPLUIE-CHAUSSURE ──────────────────────────────────
+  // ── ID 2 : Bougie Parfumée ────────────────────────────────
   {
-    id: "REF-004",
-    name: "Parapluie-Chaussure™ Bleu Ciel",
-    description: "L'invention révolutionnaire qui protège vos chaussures de la pluie sans vous mouiller les mains ! Le Parapluie-Chaussure™ se fixe en 3 secondes sur n'importe quelle semelle. Son tissu imperméable Teflon repousse 100% de l'eau. Compact plié (12 cm), il rentre dans votre sac. En coloris bleu ciel, il assortira parfaitement vos tenues printanières. Brevet déposé.",
-    stock: 35,
-    price: 24.99,
-    discount: 20,
-    currency: "€",
-    images: [
-      "assets/images/ParapluiChaussure/ParapluiChaussure_Bleu_1.jpg",
-      "assets/images/ParapluiChaussure/ParapluiChaussure_Bleu_2.jpg",
-      "assets/images/ParapluiChaussure/ParapluiChaussure_Bleu_3.jpg"
-    ],
-    characteristics: {
-      gender: "Unisexe",
-      type: "Accessoire",
-      colors: ["Bleu", "Bleu Ciel"],
-      sizes: ["S (38-40)", "M (41-43)", "L (44-46)"],
-      material: "Nylon Teflon",
-      dimensions: "Plié : 12 cm"
-    }
-  },
-  {
-    id: "REF-005",
-    name: "Parapluie-Chaussure™ Jaune Soleil",
-    description: "Le Parapluie-Chaussure™ version soleil qui égaie les jours de pluie ! Son coloris jaune vif illumine immédiatement n'importe quelle tenue grise de novembre. Tissu imperméable traité Teflon Pro, monture renforcée en aluminium anodisé résistant au vent jusqu'à 80 km/h. Système clip universel breveté, compatible toutes marques. Rendez la pluie amusante avec Maxibazard !",
-    stock: 50,
-    price: 24.99,
-    discount: 0,
-    currency: "€",
-    images: [
-      "assets/images/ParapluiChaussure/ParapluiChaussure_Jaune_1.jpg",
-      "assets/images/ParapluiChaussure/ParapluiChaussure_Jaune_2.jpg",
-      "assets/images/ParapluiChaussure/ParapluiChaussure_Jaune_3.jpg"
-    ],
-    characteristics: {
-      gender: "Unisexe",
-      type: "Accessoire",
-      colors: ["Jaune", "Jaune Soleil"],
-      sizes: ["S (38-40)", "M (41-43)", "L (44-46)"],
-      material: "Nylon Teflon Pro",
-      dimensions: "Plié : 12 cm"
-    }
-  },
-  {
-    id: "REF-006",
-    name: "Parapluie-Chaussure™ Rouge Passion",
-    description: "Affirmez votre style même sous la pluie avec le Parapluie-Chaussure™ en rouge passion. Cette édition est fabriquée dans un nylon haute densité imperméable et résistant aux UV pour conserver sa couleur vive saison après saison. Le clip renforcé titane supporte des chaussures jusqu'à 2 kg. Parfait pour talons aiguilles, rangers et sneakers premium. Élégance et protection absolues.",
-    stock: 27,
-    price: 24.99,
-    discount: 10,
-    currency: "€",
-    images: [
-      "assets/images/ParapluiChaussure/ParapluiChaussure_Rouge_1.jpg",
-      "assets/images/ParapluiChaussure/ParapluiChaussure_Rouge_2.jpg",
-      "assets/images/ParapluiChaussure/ParapluiChaussure_Rouge_3.jpg"
-    ],
-    characteristics: {
-      gender: "Unisexe",
-      type: "Accessoire",
-      colors: ["Rouge", "Rouge Carmin"],
-      sizes: ["S (38-40)", "M (41-43)", "L (44-46)"],
-      material: "Nylon HD + Titane",
-      dimensions: "Plié : 12 cm"
-    }
+    id: 2,
+    nom: "Bougie Parfumée Gastronomique",
+    prix: 11,
+    reduction: 20,
+    genre: "Maison",
+    description: "Plongez votre intérieur dans une ambiance insolite avec notre collection de bougies gastronomiques. Conçues pour les amateurs de sensations olfactives audacieuses, ces bougies capturent l'essence même de vos plats préférés. Que vous optiez pour l'odeur d'un burger juteux ou d'une pizza sortant du four, chaque bougie est coulée à la main avec une cire végétale de qualité supérieure. Elles offrent une combustion propre et une diffusion puissante pour transformer votre salon en véritable temple de la gourmandise.",
+    couleurs: [
+      {
+        id: 3,
+        nom: "Senteur Burger",
+        images: [
+          { chemin: "assets/images/Bougies/Bougie_Burger_1.jpg", isMain: true },
+          { chemin: "assets/images/Bougies/Bougie_Burger_2.jpg", isMain: false }
+        ],
+        tailles: [
+          { nom: "Petit Modèle (20h)", stock: 40 },
+          { nom: "Grand Modèle (50h)", stock: 15 }
+        ]
+      },
+      {
+        id: 4,
+        nom: "Senteur Pizza",
+        images: [
+          { chemin: "assets/images/Bougies/Bougie_Pizza_1.jpg", isMain: true },
+          { chemin: "assets/images/Bougies/Bougie_Pizza_2.jpg", isMain: false }
+        ],
+        tailles: [
+          { nom: "Petit Modèle (20h)", stock: 35 },
+          { nom: "Grand Modèle (50h)", stock: 20 }
+        ]
+      }
+    ]
   },
 
-  // ── FOURCHETTE GÉANTE ─────────────────────────────────────
+  // ── ID 3 : Chaussettes Volaille ───────────────────────────
   {
-    id: "REF-007",
-    name: "Fourchette XL Déco Bleue",
-    description: "Cette fourchette géante en résine colorée est l'accessoire déco absolu pour cuisine, salle à manger ou soirée à thème. Mesurant 45 cm de long, elle impressionne les convives et garantit des photos mémorables. Résine non toxique alimentaire, lavable à l'eau tiède. Peut servir de spatule XL pour barbecue ou de simple objet décoratif mural. 100% conversation starter garanti.",
-    stock: 60,
-    price: 12.99,
-    discount: 0,
-    currency: "€",
-    images: [
-      "assets/images/Fourchette/Fourchette_Bleu_1.jpg",
-      "assets/images/Fourchette/Fourchette_Bleu_2.jpg"
-    ],
-    characteristics: {
-      gender: "Unisexe",
-      type: "Vaisselle",
-      colors: ["Bleu", "Bleu Électrique"],
-      sizes: ["45 cm", "60 cm"],
-      material: "Résine alimentaire",
-      dimensions: "45 × 7 cm"
-    }
-  },
-  {
-    id: "REF-008",
-    name: "Fourchette XL Déco Verte",
-    description: "Version verte de notre fourchette géante iconique, pour les amateurs de nature et d'excentricité végétale. La teinte vert forêt mat apporte une touche organique et chic à n'importe quel intérieur. Fabriquée en résine haute densité, elle est parfaitement lestée pour tenir debout ou s'accrocher au mur via son œillet discret. Le cadeau parfait pour le foodie qui a déjà tout, sauf ça.",
-    stock: 45,
-    price: 12.99,
-    discount: 25,
-    currency: "€",
-    images: [
-      "assets/images/Fourchette/Fourchette_verte_1.jpg",
-      "assets/images/Fourchette/Fourchette_verte_2.jpg"
-    ],
-    characteristics: {
-      gender: "Unisexe",
-      type: "Vaisselle",
-      colors: ["Vert", "Vert Forêt"],
-      sizes: ["45 cm", "60 cm"],
-      material: "Résine haute densité",
-      dimensions: "45 × 7 cm"
-    }
+    id: 3,
+    nom: "Chaussettes Hautes Volaille",
+    prix: 10,
+    reduction: 30,
+    genre: "Mode",
+    description: "Affichez un style absolument unique et décalé jusqu'au bout des griffes avec nos célèbres Chaussettes Hautes Volaille. Conçues pour transformer vos jambes en pattes de canard ou de poulet, ces chaussettes sont fabriquées dans un coton peigné de haute qualité pour un confort thermique optimal. Que ce soit pour offrir un cadeau mémorable, pour briller lors d'une soirée déguisée ou simplement pour ajouter une dose d'humour à votre tenue de sport quotidienne, ces chaussettes ne passeront jamais inaperçues.",
+    couleurs: [
+      {
+        id: 5,
+        nom: "Modèle Canard",
+        images: [
+          { chemin: "assets/images/chaussette/chaussette_canard_1.jpg", isMain: true },
+          { chemin: "assets/images/chaussette/chaussette_canard_2.jpg", isMain: false },
+          { chemin: "assets/images/chaussette/chaussette_canard_3.jpg", isMain: false }
+        ],
+        tailles: [
+          { nom: "35-39 (S/M)",  stock: 60 },
+          { nom: "40-45 (L/XL)", stock: 40 }
+        ]
+      },
+      {
+        id: 6,
+        nom: "Modèle Poulet",
+        images: [
+          { chemin: "assets/images/chaussette/chaussette_poulet_1.jpg", isMain: true },
+          { chemin: "assets/images/chaussette/chaussette_poulet_2.jpg", isMain: false },
+          { chemin: "assets/images/chaussette/chaussette_poulet_3.jpg", isMain: false }
+        ],
+        tailles: [
+          { nom: "35-39 (S/M)",  stock: 55 },
+          { nom: "40-45 (L/XL)", stock: 45 }
+        ]
+      }
+    ]
   },
 
-  // ── COUSSIN ───────────────────────────────────────────────
+  // ── ID 4 : Coussins Poissons ──────────────────────────────
   {
-    id: "REF-009",
-    name: "Coussin Barre de Gym",
-    description: "Dormez comme un champion avec ce coussin en forme de barre d'haltérophilie. Rembourrage en mousse à mémoire de forme 100% polyuréthane pour un soutien cervical parfait. Housse en velours ultra-doux amovible et lavable à 30°C. Idéal pour motiver vos matins ou décorer la chambre d'un sportif. Ce coussin est l'union parfaite entre passion du sport et détente absolue du weekend.",
-    stock: 25,
-    price: 39.99,
-    discount: 0,
-    currency: "€",
-    images: [
-      "assets/images/Coussin/Coussin_Bar_1.jpg",
-      "assets/images/Coussin/Coussin_Bar_2.jpg"
-    ],
-    characteristics: {
-      gender: "Unisexe",
-      type: "Décoration",
-      colors: ["Gris", "Noir"],
-      sizes: ["40 cm", "55 cm"],
-      material: "Velours + Mousse mémoire",
-      dimensions: "55 × 20 × 10 cm"
-    }
-  },
-  {
-    id: "REF-010",
-    name: "Coussin Blob Relax XL",
-    description: "Le coussin dont la forme est indéfinissable, et c'est précisément ce qui le rend irrésistible. Le Coussin Blob Relax adopte spontanément la forme idéale pour votre nuque, vos lombaires ou vos pieds. Rembourrage en billes de polystyrène recyclé haute densité. Housse zippée lavable. Ce coussin anti-conventionnel est le compagnon idéal des séances de lecture, gaming ou sieste philosophique.",
-    stock: 30,
-    price: 44.99,
-    discount: 10,
-    currency: "€",
-    images: [
-      "assets/images/Coussin/Coussin_Blob_1.jpg",
-      "assets/images/Coussin/Coussin_Blob_2.jpg"
-    ],
-    characteristics: {
-      gender: "Unisexe",
-      type: "Décoration",
-      colors: ["Beige", "Crème", "Taupe"],
-      sizes: ["M (50 cm)", "XL (70 cm)"],
-      material: "Micro-suède + Billes recyclées",
-      dimensions: "50 × 50 × 15 cm"
-    }
+    id: 4,
+    nom: "Coussins Poissons Aquatiques",
+    prix: 18,
+    reduction: 10,
+    genre: "Maison",
+    description: "Apportez une touche d'originalité marine à votre décoration intérieure avec notre collection de coussins poissons. Que vous soyez fan du célèbre Blobfish au regard mélancolique ou de l'élégance argentée du Bar, ces coussins imprimés en haute définition offrent un réalisme saisissant. Conçus dans une matière douce et résistante, ils sont parfaits pour agrémenter un canapé ou une chambre d'enfant avec humour et confort. Un cadeau idéal pour les passionnés de nature et de design décalé !",
+    couleurs: [
+      {
+        id: 7,
+        nom: "Modèle Bar",
+        images: [
+          { chemin: "assets/images/Coussin/Coussin_Bar_1.jpg", isMain: true },
+          { chemin: "assets/images/Coussin/Coussin_Bar_2.jpg", isMain: false }
+        ],
+        tailles: [
+          { nom: "Taille Unique", stock: 0 }
+        ]
+      },
+      {
+        id: 8,
+        nom: "Modèle Blobfish",
+        images: [
+          { chemin: "assets/images/Coussin/Coussin_Blob_1.jpg", isMain: true },
+          { chemin: "assets/images/Coussin/Coussin_Blob_2.jpg", isMain: false }
+        ],
+        tailles: [
+          { nom: "Taille Unique", stock: 42 }
+        ]
+      }
+    ]
   },
 
-  // ── BEURRE COLLÉ ─────────────────────────────────────────
+  // ── ID 5 : Fourchette Télescopique ────────────────────────
   {
-    id: "REF-011",
-    name: "Beurre Collé Doux Premium",
-    description: "Le Beurre Collé Doux Premium est une révolution dans la tartination. Sa formule exclusive adhère parfaitement à toutes les surfaces (pain, biscottes, crêpes) sans effort ni déchirement. Fabriqué à partir de lait de vache Normande élevée en plein air, il fond à 28°C pour une onctuosité maximale. Conditionné dans son pot rechargeable en verre. Tartinez comme jamais vous n'avez tartiné.",
-    stock: 100,
-    price: 8.99,
-    discount: 0,
-    currency: "€",
-    images: [
-      "assets/images/BeureCole/BeureColle_Doux_1.jpg",
-      "assets/images/BeureCole/BeureColle_Doux_2.jpg"
-    ],
-    characteristics: {
-      gender: "Unisexe",
-      type: "Cuisine",
-      colors: ["Naturel"],
-      sizes: ["125g", "250g", "500g"],
-      material: "Beurre 82% MG",
-      dimensions: "Pot verre rechargeable"
-    }
-  },
-  {
-    id: "REF-012",
-    name: "Beurre Collé Salé Gourmet",
-    description: "Pour les inconditionnels du beurre salé, notre version Gourmet incorpore des cristaux de fleur de sel de Guérande récoltés à la main. Chaque prise offre une explosion saline parfaitement dosée sur fond crémeux. Formule Collé™ garantit un tartinage sans résistance sur tout support. En pot rechargeable en verre gravé au nom de la maison. Le luxe accessible de votre petit-déjeuner quotidien.",
-    stock: 85,
-    price: 8.99,
-    discount: 15,
-    currency: "€",
-    images: [
-      "assets/images/BeureCole/BeureColle_Sale_1.jpg",
-      "assets/images/BeureCole/BeureColle_Sale_2.jpg"
-    ],
-    characteristics: {
-      gender: "Unisexe",
-      type: "Cuisine",
-      colors: ["Naturel"],
-      sizes: ["125g", "250g", "500g"],
-      material: "Beurre + Fleur de sel Guérande",
-      dimensions: "Pot verre gravé"
-    }
+    id: 5,
+    nom: "Fourchette Télescopique Anti-Vol",
+    prix: 12,
+    reduction: 15,
+    genre: "Cuisine",
+    description: "Ne laissez plus jamais personne piquer dans votre assiette ! Grâce à notre Fourchette Télescopique extensible jusqu'à un mètre, reprenez le contrôle de la table et allez vous servir directement dans l'assiette de vos voisins sans même vous lever. Fabriquée en acier inoxydable de haute qualité avec un manche ergonomique coloré, elle est l'outil indispensable pour les buffets, les fondues ou simplement pour les gourmands qui n'ont pas de limites. Un accessoire de cuisine aussi pratique que rigolo qui garantit des fous rires à chaque repas.",
+    couleurs: [
+      {
+        id: 9,
+        nom: "Manche Bleu",
+        images: [
+          { chemin: "assets/images/Fourchette/Fourchette_Bleu_1.jpg", isMain: true },
+          { chemin: "assets/images/Fourchette/Fourchette_Bleu_2.jpg", isMain: false }
+        ],
+        tailles: [
+          { nom: "Modèle Standard (65cm)", stock: 20 },
+          { nom: "Modèle Long (1 mètre)",  stock: 10 }
+        ]
+      },
+      {
+        id: 10,
+        nom: "Manche Vert",
+        images: [
+          { chemin: "assets/images/Fourchette/Fourchette_verte_1.jpg", isMain: true },
+          { chemin: "assets/images/Fourchette/Fourchette_verte_2.jpg", isMain: false }
+        ],
+        tailles: [
+          { nom: "Modèle Standard (65cm)", stock: 25 },
+          { nom: "Modèle Long (1 mètre)",  stock: 5  }
+        ]
+      }
+    ]
   },
 
-  // ── SURLIGNIEUR ───────────────────────────────────────────
+  // ── ID 6 : Gant de Toilettage ─────────────────────────────
   {
-    id: "REF-013",
-    name: "Surlignieur Bacon Édition",
-    description: "Surlignez vos cours avec la saveur (visuelle) du bacon ! Ce surlignieur réaliste en forme de tranche de lard est bluffant de détails. Encre fluide longue durée jaune fluo compatible tous papiers, rechargeable. La pointe biseautée large permet de surligner jusqu'à 3 lignes simultanément. Un accessoire de bureau qui détend l'atmosphère, brise la glace et ne tache pas le nez. Presque comestible.",
-    stock: 200,
-    price: 6.99,
-    discount: 0,
-    currency: "€",
-    images: [
-      "assets/images/Surlignieur/Surlignieur_Bacon.jpg",
-      "assets/images/Surlignieur/Surlignieur_Poulet.jpg"
-    ],
-    characteristics: {
-      gender: "Unisexe",
-      type: "Papeterie",
-      colors: ["Jaune fluo", "Rose fluo"],
-      sizes: ["Standard"],
-      material: "Plastique + Encre à base d'eau",
-      dimensions: "12 × 4 × 1.5 cm"
-    }
-  },
-  {
-    id: "REF-014",
-    name: "Surlignieur Poisson Édition",
-    description: "Votre bureau ne sentira pas le poisson, mais vos notes seront magnifiquement surlignées grâce à ce surlignieur réaliste en forme de poisson. Encre bleue fluo rechargeable longue durée. Le corps rigide ergonomique épouse parfaitement la main pour réduire la fatigue lors des longues sessions de révision. Un must-have du kit scolaire pour ceux qui assument leur originalité avec fierté et humour.",
-    stock: 175,
-    price: 6.99,
-    discount: 20,
-    currency: "€",
-    images: [
-      "assets/images/Surlignieur/Surlignieur_Poisson.jpg",
-      "assets/images/Surlignieur/Surlignieur_Bacon.jpg"
-    ],
-    characteristics: {
-      gender: "Unisexe",
-      type: "Papeterie",
-      colors: ["Bleu fluo", "Vert fluo"],
-      sizes: ["Standard"],
-      material: "Plastique + Encre à base d'eau",
-      dimensions: "14 × 4 × 2 cm"
-    }
-  },
-  {
-    id: "REF-015",
-    name: "Surlignieur Poulet Rôti Édition",
-    description: "Le summum de la papeterie insolite : un surlignieur en forme de cuisse de poulet rôti d'un réalisme saisissant. Encre orange fluo lumineuse visible même sous faible éclairage. La pointe précise à 2 mm permet des soulignements chirurgicaux dans les marges les plus étroites. Anti-tache sur les mains, séchage instantané. Offrir ce surlignieur c'est offrir un sourire garanti à chaque utilisation.",
-    stock: 150,
-    price: 6.99,
-    discount: 0,
-    currency: "€",
-    images: [
-      "assets/images/Surlignieur/Surlignieur_Poulet.jpg",
-      "assets/images/Surlignieur/Surlignieur_Poisson.jpg"
-    ],
-    characteristics: {
-      gender: "Unisexe",
-      type: "Papeterie",
-      colors: ["Orange fluo", "Rose fluo"],
-      sizes: ["Standard"],
-      material: "Plastique + Encre permanente",
-      dimensions: "11 × 5 × 3 cm"
-    }
+    id: 6,
+    nom: "Gant de Toilettage Professionnel",
+    prix: 8,
+    reduction: 20,
+    genre: "Animaux",
+    description: "Prenez soin de votre animal de compagnie avec notre gant de toilettage haute performance. Grâce à ses picots en silicone souple, il permet de retirer les poils morts tout en offrant un massage relaxant qui stimule la peau. Ce gant est l'accessoire idéal pour les périodes de mue, évitant ainsi que les poils ne s'accumulent sur vos meubles et vêtements. Sa conception ergonomique avec sangle ajustable assure une prise en main parfaite pour toutes les morphologies. Disponible en plusieurs coloris et tailles pour s'adapter à chaque propriétaire.",
+    couleurs: [
+      {
+        id: 11,
+        nom: "Blanc",
+        images: [{ chemin: "assets/images/Gants/Gants_Blanc_1.jpg", isMain: true }],
+        tailles: [
+          { nom: "Taille S", stock: 15 },
+          { nom: "Taille M", stock: 20 },
+          { nom: "Taille L", stock: 10 }
+        ]
+      },
+      {
+        id: 12,
+        nom: "Multis",
+        images: [{ chemin: "assets/images/Gants/Gants_Multis_1.jpg", isMain: true }],
+        tailles: [
+          { nom: "Taille S", stock: 5  },
+          { nom: "Taille M", stock: 12 },
+          { nom: "Taille L", stock: 8  }
+        ]
+      },
+      {
+        id: 13,
+        nom: "Noir",
+        images: [{ chemin: "assets/images/Gants/Gants_Noir_1.jpg", isMain: true }],
+        tailles: [
+          { nom: "Taille S", stock: 10 },
+          { nom: "Taille M", stock: 15 },
+          { nom: "Taille L", stock: 1  }
+        ]
+      }
+    ]
   },
 
-  // ── PACKS & BUNDLES ───────────────────────────────────────
+  // ── ID 7 : Masque Animal Latex ────────────────────────────
   {
-    id: "REF-016",
-    name: "Pack Trio Surlignieur Charcuterie",
-    description: "Offrez-vous ou offrez l'intégrale de la collection charcutière : Bacon, Poisson et Poulet réunis dans un coffret cadeau Maxibazard. Chaque surlignieur a une couleur d'encre différente (jaune, bleu, orange fluo) pour coder vos prises de notes par thème. Le coffret est refermable et réutilisable comme trousse. Idéal pour les étudiants, les professeurs et tous ceux qui ont un sens de l'humour bien développé.",
-    stock: 65,
-    price: 17.99,
-    discount: 10,
-    currency: "€",
-    images: [
-      "assets/images/Surlignieur/Surlignieur_Bacon.jpg",
-      "assets/images/Surlignieur/Surlignieur_Poisson.jpg",
-      "assets/images/Surlignieur/Surlignieur_Poulet.jpg"
-    ],
-    characteristics: {
-      gender: "Unisexe",
-      type: "Papeterie",
-      colors: ["Multicolore"],
-      sizes: ["Coffret 3 pièces"],
-      material: "Plastique + Coffret carton",
-      dimensions: "Coffret : 20 × 8 × 4 cm"
-    }
+    id: 7,
+    nom: "Masque d'Animal Réaliste en Latex",
+    prix: 15,
+    reduction: 20,
+    genre: "Fête",
+    description: "Devenez l'âme de la soirée avec nos masques d'animaux ultra-réalistes en latex de haute qualité. Que vous choisissiez la majesté du Cheval ou le regard fixe et hilarant du Pigeon, ces masques couvrent l'intégralité de la tête pour une transformation totale. Idéal pour les vidéos décalées, les carnavals ou pour surprendre vos amis, chaque masque dispose d'ouvertures discrètes pour une vision et une respiration optimales. Un accessoire indispensable pour ceux qui ne craignent pas le ridicule et cherchent un effet garanti à chaque apparition !",
+    couleurs: [
+      {
+        id: 14,
+        nom: "Modèle Cheval",
+        images: [
+          { chemin: "assets/images/Masques/Masque_Cheval_1.jpg", isMain: true },
+          { chemin: "assets/images/Masques/Masque_Cheval_2.jpg", isMain: false }
+        ],
+        tailles: [
+          { nom: "Taille Enfant", stock: 10 },
+          { nom: "Taille Adulte", stock: 25 }
+        ]
+      },
+      {
+        id: 15,
+        nom: "Modèle Pigeon",
+        images: [
+          { chemin: "assets/images/Masques/Masque_Pigeon_1.jpg", isMain: true },
+          { chemin: "assets/images/Masques/Masque_Pigeon_2.jpg", isMain: false }
+        ],
+        tailles: [
+          { nom: "Taille Enfant", stock: 8  },
+          { nom: "Taille Adulte", stock: 30 }
+        ]
+      }
+    ]
   },
+
+  // ── ID 8 : Mini Aspirateur Gacha ──────────────────────────
   {
-    id: "REF-017",
-    name: "Pack Mini Aspi Duo Bureau",
-    description: "Pour les bureaux partagés ou les bipolaires de la propreté, le Pack Duo offre deux mini aspirateurs USB assortis (un blanc, un rose) à prix imbattable. Chacun dispose de son propre câble USB et de ses embouts. Ils se branchent simultanément sur un hub USB. Un pour votre côté gauche, un pour votre côté droit. Ou un pour vous et un pour offrir. La propreté n'attendra plus jamais.",
-    stock: 20,
-    price: 49.99,
-    discount: 20,
-    currency: "€",
-    images: [
-      "assets/images/MiniAspi/Aspi_1.jpg",
-      "assets/images/MiniAspi/Aspi_4.jpg",
-      "assets/images/MiniAspi/Aspi_2.jpg"
-    ],
-    characteristics: {
-      gender: "Unisexe",
-      type: "Aspirateur",
-      colors: ["Blanc + Rose"],
-      sizes: ["Pack 2 unités"],
-      material: "Plastique ABS",
-      dimensions: "2 × 15 × 5 × 5 cm"
-    }
+    id: 8,
+    nom: "Mini Aspirateur de Bureau Gacha",
+    prix: 14,
+    reduction: 10,
+    genre: "Bureau",
+    description: "Dites adieu aux miettes de pain, à la poussière de gomme et aux petits débris qui envahissent votre espace de travail. Ce mini aspirateur de bureau, compact et puissant, est l'outil de nettoyage ultime pour les maniaques de la propreté. Son design ergonomique permet une prise en main facile et un passage rapide entre les touches de votre clavier ou sur vos documents. Fonctionnant sur piles ou via USB, il est aussi discret qu'efficace. Attention : la couleur est expédiée de manière aléatoire, ajoutant une petite touche de surprise à votre commande !",
+    couleurs: [
+      {
+        id: 16,
+        nom: "Couleur Aléatoire (Surprise)",
+        images: [
+          { chemin: "assets/images/MiniAspi/Aspi_1.jpg", isMain: true },
+          { chemin: "assets/images/MiniAspi/Aspi_2.jpg", isMain: false },
+          { chemin: "assets/images/MiniAspi/Aspi_3.jpg", isMain: false },
+          { chemin: "assets/images/MiniAspi/Aspi_4.jpg", isMain: false },
+          { chemin: "assets/images/MiniAspi/Aspi_5.jpg", isMain: false },
+          { chemin: "assets/images/MiniAspi/Aspi_6.jpg", isMain: false },
+          { chemin: "assets/images/MiniAspi/Aspi_7.jpg", isMain: false }
+        ],
+        tailles: [
+          { nom: "Puissance Éco (2000 Pa)",      stock: 50 },
+          { nom: "Puissance Standard (4000 Pa)", stock: 35 },
+          { nom: "Puissance Turbo (6000 Pa)",    stock: 15 }
+        ]
+      }
+    ]
   },
+
+  // ── ID 10 : Pentalon Oversize ─────────────────────────────
   {
-    id: "REF-018",
-    name: "Coussin Barre & Blob — Duo Confort",
-    description: "Le meilleur des deux mondes dans un seul pack : la Barre de Gym pour le soutien cervical structuré et le Blob pour la détente totale. Alterner entre les deux selon votre humeur ou votre position est la clé d'une sédentarité enfin épanouissante. Coques lavables incluses. Ce duo complémentaire est conçu pour le canapé, le lit ou le bureau. Investissez dans votre confort de façon radicalement originale.",
-    stock: 15,
-    price: 74.99,
-    discount: 0,
-    currency: "€",
-    images: [
-      "assets/images/Coussin/Coussin_Bar_1.jpg",
-      "assets/images/Coussin/Coussin_Blob_1.jpg",
-      "assets/images/Coussin/Coussin_Bar_2.jpg"
-    ],
-    characteristics: {
-      gender: "Unisexe",
-      type: "Décoration",
-      colors: ["Gris + Beige"],
-      sizes: ["Pack 2 coussins"],
-      material: "Velours + Micro-suède",
-      dimensions: "2 coussins assortis"
-    }
+    id: 10,
+    nom: "Pentalon Oversize Relax",
+    prix: 35,
+    reduction: 20,
+    genre: "Mode",
+    description: "Adoptez un style décontracté et ultra-confortable avec notre Pentalon Oversize Relax. Conçu dans une matière fluide et respirante, ce pantalon est idéal pour vos journées de détente à la maison ou pour un look urbain audacieux. Sa coupe large permet une liberté de mouvement totale, tandis que sa taille élastique s'adapte à toutes les morphologies. Que vous choisissiez le jaune éclatant pour illuminer votre tenue ou le noir classique pour une élégance discrète, ce pentalon deviendra rapidement la pièce maîtresse de votre garde-robe estivale.",
+    couleurs: [
+      {
+        id: 20,
+        nom: "Jaune Éclatant",
+        images: [
+          { chemin: "assets/images/Pentalon/Pentalon_jaune_1.jpg", isMain: true },
+          { chemin: "assets/images/Pentalon/Pentalon_jaune_2.jpg", isMain: false }
+        ],
+        tailles: [
+          { nom: "S", stock: 15 }, { nom: "M", stock: 25 },
+          { nom: "L", stock: 10 }, { nom: "XL", stock: 5 }
+        ]
+      },
+      {
+        id: 21,
+        nom: "Noir Intense",
+        images: [
+          { chemin: "assets/images/Pentalon/Pentalon_noire_1.jpg", isMain: true },
+          { chemin: "assets/images/Pentalon/Pentalon_noire_2.jpg", isMain: false }
+        ],
+        tailles: [
+          { nom: "S", stock: 20 }, { nom: "M", stock: 30 },
+          { nom: "L", stock: 15 }, { nom: "XL", stock: 8 }
+        ]
+      }
+    ]
   },
+
+  // ── ID 11 : Perruque Animaux ──────────────────────────────
   {
-    id: "REF-019",
-    name: "Kit Cuisine Fourchette + Beurre",
-    description: "Le kit ultime pour les amateurs de tartinage élaboré : une Fourchette XL Bleue pour étaler avec panache et un pot de Beurre Collé Doux pour un résultat sans accroc. Ensemble, ils redéfinissent le rituel du petit-déjeuner. La fourchette géante impressionne, le beurre collé simplifie. Présenté dans un sac kraft Maxibazard, ce kit constitue un cadeau aussi bizarre qu'inoubliable pour toute occasion.",
-    stock: 22,
-    price: 19.99,
-    discount: 15,
-    currency: "€",
-    images: [
-      "assets/images/Fourchette/Fourchette_Bleu_1.jpg",
-      "assets/images/BeureCole/BeureColle_Doux_1.jpg",
-      "assets/images/Fourchette/Fourchette_verte_1.jpg"
-    ],
-    characteristics: {
-      gender: "Unisexe",
-      type: "Cuisine",
-      colors: ["Bleu + Naturel"],
-      sizes: ["Kit 2 produits"],
-      material: "Résine + Beurre 82% MG",
-      dimensions: "Sac kraft inclus"
-    }
+    id: 11,
+    nom: "Perruque de Luxe pour Animaux",
+    prix: 19,
+    reduction: 15,
+    genre: "Animaux",
+    description: "Offrez à votre fidèle compagnon un relooking mémorable avec notre collection de perruques de luxe pour chiens et chats. Que ce soit pour une séance photo hilarante, une fête déguisée ou simplement pour transformer votre animal en star d'Instagram, ces perruques sont conçues pour un confort optimal. Elles disposent d'une sangle élastique ajustable pour rester bien en place sans gêner l'animal. Disponibles en plusieurs couleurs vibrantes, ces chevelures synthétiques de haute qualité garantissent un effet waouh et des fous rires à chaque utilisation !",
+    couleurs: [
+      {
+        id: 22,
+        nom: "Rose Poudré",
+        images: [
+          { chemin: "assets/images/Perruque/perruque_Rose_1.jpg", isMain: true },
+          { chemin: "assets/images/Perruque/perruque_Rose_2.jpg", isMain: false },
+          { chemin: "assets/images/Perruque/perruque_Rose_3.jpg", isMain: false }
+        ],
+        tailles: [
+          { nom: "Petit Chien / Chat", stock: 12 },
+          { nom: "Grand Chien",        stock: 8  }
+        ]
+      },
+      {
+        id: 23,
+        nom: "Vert Flashy",
+        images: [
+          { chemin: "assets/images/Perruque/perruque_vert_1.jpg", isMain: true },
+          { chemin: "assets/images/Perruque/perruque_vert_2.jpg", isMain: false },
+          { chemin: "assets/images/Perruque/perruque_vert_3.jpg", isMain: false }
+        ],
+        tailles: [
+          { nom: "Petit Chien / Chat", stock: 15 },
+          { nom: "Grand Chien",        stock: 10 }
+        ]
+      },
+      {
+        id: 24,
+        nom: "Violet Royal",
+        images: [
+          { chemin: "assets/images/Perruque/perruque_violet_1.jpg", isMain: true },
+          { chemin: "assets/images/Perruque/perruque_violet_2.jpg", isMain: false },
+          { chemin: "assets/images/Perruque/perruque_violet_3.jpg", isMain: false }
+        ],
+        tailles: [
+          { nom: "Petit Chien / Chat", stock: 20 },
+          { nom: "Grand Chien",        stock: 5  }
+        ]
+      }
+    ]
   },
+
+  // ── ID 12 : Pet Rock / Stick ──────────────────────────────
   {
-    id: "REF-020",
-    name: "Parapluie-Chaussure™ Arc-en-Ciel Pack",
-    description: "Ne choisissez plus votre couleur préférée : prenez-les toutes ! Le Pack Arc-en-Ciel contient les trois coloris emblématiques du Parapluie-Chaussure™ (Bleu, Jaune, Rouge) dans un coffret collector aux finitions premium. Alternez les couleurs selon votre tenue, vos chaussures ou votre humeur météo. Chaque parapluie-chaussure est livré dans sa pochette individuelle. L'accessoire pluie le plus stylé de la saison, garanti.",
-    stock: 12,
-    price: 59.99,
-    discount: 0,
-    currency: "€",
-    images: [
-      "assets/images/ParapluiChaussure/ParapluiChaussure_Rouge_1.jpg",
-      "assets/images/ParapluiChaussure/ParapluiChaussure_Jaune_1.jpg",
-      "assets/images/ParapluiChaussure/ParapluiChaussure_Bleu_1.jpg"
-    ],
-    characteristics: {
-      gender: "Unisexe",
-      type: "Accessoire",
-      colors: ["Bleu + Jaune + Rouge"],
-      sizes: ["S (38-40)", "M (41-43)", "L (44-46)"],
-      material: "Nylon Teflon Pro",
-      dimensions: "Coffret : 40 × 15 × 5 cm"
-    }
+    id: 12,
+    nom: "Compagnon de Vie Inerte (Pet Rock / Stick)",
+    prix: 10,
+    reduction: 5,
+    genre: "Cadeau",
+    description: "Marre des contraintes liées aux animaux classiques ? Découvrez nos nouveaux compagnons de vie garantis sans frais de vétérinaire, sans odeurs et sans poils sur le canapé ! Que vous choisissiez le Pet Rock pour sa stabilité légendaire ou le Pet Stick pour son dynamisme naturel, votre nouveau meilleur ami sera toujours là pour vous écouter sans jamais vous contredire. Livré dans son emballage écologique avec son certificat d'adoption officiel, c'est le cadeau idéal pour ceux qui ont déjà tout.",
+    couleurs: [
+      {
+        id: 25,
+        nom: "Pet Rock (Caillou)",
+        images: [
+          { chemin: "assets/images/Pet/Pet_Rock_1.jpg", isMain: true },
+          { chemin: "assets/images/Pet/Pet_Rock_2.jpg", isMain: false },
+          { chemin: "assets/images/Pet/Pet_Rock_3.jpg", isMain: false }
+        ],
+        tailles: [
+          { nom: "Format Poche",    stock: 40 },
+          { nom: "Format Standard", stock: 25 }
+        ]
+      },
+      {
+        id: 26,
+        nom: "Pet Stick (Bâton)",
+        images: [
+          { chemin: "assets/images/Pet/Pet_Stick_1.jpg", isMain: true },
+          { chemin: "assets/images/Pet/Pet_Stick_2.jpg", isMain: false },
+          { chemin: "assets/images/Pet/Pet_Stick_3.jpg", isMain: false }
+        ],
+        tailles: [
+          { nom: "Taille Brindille", stock: 30 },
+          { nom: "Taille Branche",   stock: 15 }
+        ]
+      }
+    ]
   },
+
+  // ── ID 13 : Pistolet à Sauces ─────────────────────────────
   {
-    id: "REF-021",
-    name: "Set Complet Papeterie Charcutière",
-    description: "Pour le bureau ou l'école, le Set Complet Papeterie Charcutière regroupe l'intégralité des produits Surlignieur Maxibazard auxquels s'ajoute une gomme en forme de saucisse (offerte). Parfait pour le retour en classe ou pour dynamiser une salle de réunion trop sérieuse. Chaque pièce est emballée individuellement dans un film alimentaire faux en plastique recyclé, pour parfaire l'illusion comestible.",
-    stock: 40,
-    price: 22.99,
-    discount: 30,
-    currency: "€",
-    images: [
-      "assets/images/Surlignieur/Surlignieur_Poulet.jpg",
-      "assets/images/Surlignieur/Surlignieur_Bacon.jpg",
-      "assets/images/Surlignieur/Surlignieur_Poisson.jpg"
-    ],
-    characteristics: {
-      gender: "Unisexe",
-      type: "Papeterie",
-      colors: ["Multicolore"],
-      sizes: ["Set complet 4 pièces"],
-      material: "Plastique + Caoutchouc",
-      dimensions: "Pochette 22 × 10 cm"
-    }
+    id: 13,
+    nom: "Pistolet à Sauces Rétro-Futuriste",
+    prix: 15,
+    reduction: 20,
+    genre: "Cuisine",
+    description: "Dégainez vos sauces plus vite que votre ombre avec le Pistolet à Condiments ultime ! Que vous soyez fan de Ketchup, de Mayonnaise ou de Moutarde, ce gadget transforme chaque barbecue en duel de saveurs. Son mécanisme de gâchette précis permet de doser parfaitement vos sauces sur vos hot-dogs, burgers ou frites sans aucune bavure. Fabriqué en plastique alimentaire robuste et facile à nettoyer, il est livré avec ses cartouches rechargeables. Un accessoire de cuisine indispensable pour ceux qui veulent mettre du fun dans leurs repas.",
+    couleurs: [
+      {
+        id: 27,
+        nom: "Édition Ketchup",
+        images: [
+          { chemin: "assets/images/Pistolet/Pistolet_Ketchup_1.jpg", isMain: true },
+          { chemin: "assets/images/Pistolet/Pistolet_Ketchup_2.jpg", isMain: false }
+        ],
+        tailles: [
+          { nom: "Réservoir 100ml",    stock: 25 },
+          { nom: "Réservoir XL 250ml", stock: 10 }
+        ]
+      },
+      {
+        id: 28,
+        nom: "Édition Mayo",
+        images: [
+          { chemin: "assets/images/Pistolet/Pistolet_Mayo_1.jpg", isMain: true },
+          { chemin: "assets/images/Pistolet/Pistolet_Mayo_2.jpg", isMain: false }
+        ],
+        tailles: [
+          { nom: "Réservoir 100ml",    stock: 15 },
+          { nom: "Réservoir XL 250ml", stock: 5  }
+        ]
+      },
+      {
+        id: 29,
+        nom: "Édition Moutarde",
+        images: [
+          { chemin: "assets/images/Pistolet/Pistolet_Moutarde_1.jpg", isMain: true },
+          { chemin: "assets/images/Pistolet/Pistolet_Moutarde_2.jpg", isMain: false }
+        ],
+        tailles: [
+          { nom: "Réservoir 100ml",    stock: 20 },
+          { nom: "Réservoir XL 250ml", stock: 12 }
+        ]
+      }
+    ]
   },
+
+  // ── ID 14 : Surligneurs Gastronomiques ────────────────────
   {
-    id: "REF-022",
-    name: "Fourchette XL Collector Pack Bicolore",
-    description: "Possédez les deux couleurs de notre Fourchette XL dans un seul pack collector. La Bleue Électrique et la Verte Forêt se complètent à merveille pour une décoration de table bicolore ou une installation murale graphique. En résine haute densité, elles sont solides, lavables et parfaitement équilibrées. Un cadeau d'anniversaire mémorable, un accessoire photo virale ou une pièce déco hors du commun.",
-    stock: 33,
-    price: 21.99,
-    discount: 0,
-    currency: "€",
-    images: [
-      "assets/images/Fourchette/Fourchette_Bleu_1.jpg",
-      "assets/images/Fourchette/Fourchette_verte_1.jpg",
-      "assets/images/Fourchette/Fourchette_Bleu_2.jpg"
-    ],
-    characteristics: {
-      gender: "Unisexe",
-      type: "Vaisselle",
-      colors: ["Bleu + Vert"],
-      sizes: ["Pack 2 fourchettes"],
-      material: "Résine haute densité",
-      dimensions: "2 × 45 × 7 cm"
-    }
+    id: 14,
+    nom: "Surligneurs aux Senteurs Gastronomiques",
+    prix: 5,
+    reduction: 10,
+    genre: "Bureau",
+    description: "Rendez vos prises de notes inoubliables avec nos surligneurs aux parfums totalement improbables. Fini l'odeur classique du feutre, place aux arômes de Bacon grillé, de Poisson frais ou de Poulet rôti ! Chaque surligneur diffuse une fragrance intense dès que vous soulignez vos passages importants. Parfait pour s'ouvrir l'appétit en plein examen ou pour faire une blague originale à vos collègues de bureau. Une expérience olfactive unique qui donne enfin du goût à vos documents administratifs.",
+    couleurs: [
+      {
+        id: 30,
+        nom: "Parfum Bacon",
+        images: [{ chemin: "assets/images/Surlignieur/Surlignieur_Bacon.jpg", isMain: true }],
+        tailles: [
+          { nom: "Pointe Fine (1mm)",  stock: 50 },
+          { nom: "Pointe Large (4mm)", stock: 30 }
+        ]
+      },
+      {
+        id: 31,
+        nom: "Parfum Poisson",
+        images: [{ chemin: "assets/images/Surlignieur/Surlignieur_Poisson.jpg", isMain: true }],
+        tailles: [
+          { nom: "Pointe Fine (1mm)",  stock: 40 },
+          { nom: "Pointe Large (4mm)", stock: 25 }
+        ]
+      },
+      {
+        id: 32,
+        nom: "Parfum Poulet",
+        images: [{ chemin: "assets/images/Surlignieur/Surlignieur_Poulet.jpg", isMain: true }],
+        tailles: [
+          { nom: "Pointe Fine (1mm)",  stock: 45 },
+          { nom: "Pointe Large (4mm)", stock: 35 }
+        ]
+      }
+    ]
+  },
+
+  // ── ID 15 : T-shirt Compression ──────────────────────────
+  {
+    id: 15,
+    nom: "T-shirt de Compression Ultra-Performance",
+    prix: 29,
+    reduction: 15,
+    genre: "Sport",
+    description: "Repoussez vos limites avec notre gamme de T-shirts de compression V-T-shirt, conçus pour les athlètes exigeants. Grâce à leur technologie de compression ciblée, ces hauts favorisent la circulation sanguine et réduisent la fatigue musculaire pendant vos séances les plus intenses. Le tissu respirant évacue la transpiration pour vous garder au sec, tandis que les designs exclusifs vous offrent un look unique et motivant. Que vous soyez en plein squat ou sur un ring, ce t-shirt devient votre seconde peau pour une performance maximale.",
+    couleurs: [
+      {
+        id: 33,
+        nom: "Design Lightning",
+        images: [{ chemin: "assets/images/V_T-shirt/V_T-shirt_Lightning.jpg", isMain: true }],
+        tailles: [
+          { nom: "S", stock: 10 }, { nom: "M", stock: 20 },
+          { nom: "L", stock: 15 }, { nom: "XL", stock: 5 }
+        ]
+      },
+      {
+        id: 34,
+        nom: "Design Majin",
+        images: [{ chemin: "assets/images/V_T-shirt/V_T-shirt_Majin.jpg", isMain: true }],
+        tailles: [
+          { nom: "S", stock: 8  }, { nom: "M", stock: 25 },
+          { nom: "L", stock: 12 }, { nom: "XL", stock: 10 }
+        ]
+      },
+      {
+        id: 35,
+        nom: "Édition White",
+        images: [{ chemin: "assets/images/V_T-shirt/V_T-shirt_White.jpg", isMain: true }],
+        tailles: [
+          { nom: "S", stock: 15 }, { nom: "M", stock: 30 },
+          { nom: "L", stock: 20 }, { nom: "XL", stock: 7 }
+        ]
+      }
+    ]
+  },
+
+  // ── ID 18 : Lisseur Papier Toilette ──────────────────────
+  {
+    id: 18,
+    nom: "Lisseur Thermique SilkTouch pour Papier Toilette",
+    prix: 45,
+    reduction: 10,
+    genre: "Maison",
+    description: "Le luxe ultime s'invite dans votre salle de bain avec le SilkTouch. Ce défroisseur miniature USB permet de lisser chaque feuille de papier toilette pour une douceur et une planéité digne des plus grands palaces. Pourquoi accepter un papier froissé quand on peut avoir une texture parfaite ? Son design ergonomique et sa montée en température rapide transforment votre routine quotidienne en un moment de pur raffinement technologique. Livré avec son socle de charge élégant.",
+    couleurs: [
+      {
+        id: 40,
+        nom: "Bleu Saphir",
+        images: [
+          { chemin: "assets/images/Iron/Iron_bleu_1.jpg", isMain: true },
+          { chemin: "assets/images/Iron/Iron_bleu_2.jpg", isMain: false }
+        ],
+        tailles: [
+          { nom: "Température Douce (40°C)", stock: 12 },
+          { nom: "Mode Express (60°C)",      stock: 5  }
+        ]
+      },
+      {
+        id: 41,
+        nom: "Rose Gold Édition",
+        images: [
+          { chemin: "assets/images/Iron/Iron_Rose_1.jpg", isMain: true },
+          { chemin: "assets/images/Iron/Iron_Rose_2.jpg", isMain: false }
+        ],
+        tailles: [
+          { nom: "Température Douce (40°C)", stock: 10 },
+          { nom: "Mode Express (60°C)",      stock: 8  }
+        ]
+      }
+    ]
+  },
+
+  // ── ID 19 : Lunettes Trompe-l'œil ────────────────────────
+  {
+    id: 19,
+    nom: "Lunettes Trompe-l'œil Vigilance",
+    prix: 8,
+    reduction: 0,
+    genre: "Bureau",
+    description: "Dormez partout, tout le temps, sans aucune conséquence sociale ! Ces lunettes révolutionnaires affichent des yeux peints d'un réalisme saisissant, donnant l'illusion que vous fixez votre interlocuteur avec une attention passionnée. Idéales pour les conférences, les cours magistraux ou les longs trajets, elles vous permettent de récupérer vos heures de sommeil tout en conservant une image professionnelle irréprochable. Ne pas utiliser en conduisant, évidemment.",
+    couleurs: [
+      {
+        id: 42,
+        nom: "Regard Bleu Alerte",
+        images: [
+          { chemin: "assets/images/lunettes/Lunette_Bleu_1.jpg", isMain: true },
+          { chemin: "assets/images/lunettes/Lunette_Bleu_2.jpg", isMain: false }
+        ],
+        tailles: [
+          { nom: "Standard (Adulte)",     stock: 40 },
+          { nom: "Taille Enfant (École)", stock: 15 }
+        ]
+      },
+      {
+        id: 43,
+        nom: "Regard Vert Éveillé",
+        images: [
+          { chemin: "assets/images/lunettes/Lunette_Vert_1.jpg", isMain: true },
+          { chemin: "assets/images/lunettes/Lunette_Vert_2.jpg", isMain: false }
+        ],
+        tailles: [
+          { nom: "Standard (Adulte)",     stock: 35 },
+          { nom: "Taille Enfant (École)", stock: 20 }
+        ]
+      }
+    ]
+  },
+
+  // ── ID 20 : Voiture Capsule Corp ──────────────────────────
+  {
+    id: 20,
+    nom: "Voiture de Sport Rétractable (Capsule Corp)",
+    prix: 1500,
+    reduction: 10,
+    genre: "Tech",
+    description: "La révolution des transports est enfin là ! Ne perdez plus jamais de temps à chercher une place de parking. D'une simple pression sur le bouton d'activation, cette voiture de sport décapotable se rétracte instantanément dans une capsule de la taille d'un pamplemousse. Dotée d'une accélération fulgurante et d'un design rétro-futuriste iconique, elle allie la technologie Capsule Corp au luxe absolu. Livrée avec son étui de transport et un système de lancement sécurisé. Attention : ne pas activer à l'intérieur d'un petit appartement.",
+    couleurs: [
+      {
+        id: 44,
+        nom: "Bleu Cyan Classique",
+        images: [
+          { chemin: "assets/images/Voiture/Voiture_Bleu_1.jpg", isMain: true },
+          { chemin: "assets/images/Voiture/Voiture_Bleu_2.jpg", isMain: false }
+        ],
+        tailles: [
+          { nom: "Moteur Standard",       stock: 3 },
+          { nom: "Édition Super-Chargée", stock: 1 }
+        ]
+      },
+      {
+        id: 45,
+        nom: "Orange Sport",
+        images: [
+          { chemin: "assets/images/Voiture/Voiture_Orange_1.jpg", isMain: true },
+          { chemin: "assets/images/Voiture/Voiture_Orange_2.jpg", isMain: false }
+        ],
+        tailles: [
+          { nom: "Moteur Standard",       stock: 2 },
+          { nom: "Édition Super-Chargée", stock: 2 }
+        ]
+      }
+    ]
   }
+
 ];
+
+// ── Helpers ─────────────────────────────────────────────────
+
+/** Image principale d'une couleur */
+export function getMainImage(couleur) {
+  return (couleur.images.find(i => i.isMain) || couleur.images[0])?.chemin || '';
+}
+
+/** 2e image d'une couleur (hover) */
+export function getHoverImage(couleur) {
+  const others = couleur.images.filter(i => !i.isMain);
+  return others[0]?.chemin || getMainImage(couleur);
+}
+
+/** Image principale du produit (1re couleur) */
+export function getProductMainImage(p) { return getMainImage(p.couleurs[0]); }
+
+/** Image hover du produit (1re couleur) */
+export function getProductHoverImage(p) { return getHoverImage(p.couleurs[0]); }
+
+/** Prix final */
+export function getPrixFinal(p) { return p.prix * (1 - p.reduction / 100); }
+
+/** Stock total d'une couleur */
+export function getColorStock(couleur) {
+  return couleur.tailles.reduce((s, t) => s + t.stock, 0);
+}
+
+/** Stock total du produit */
+export function getTotalStock(p) {
+  return p.couleurs.reduce((sum, c) => sum + getColorStock(c), 0);
+}

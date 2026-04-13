@@ -1,31 +1,34 @@
+// =========================================================
+// MAXIBAZARD — Serveur Express
+// =========================================================
+require('dotenv').config();
 const express = require('express');
-const cors = require('cors');
-const path = require('path');
-const fs = require('fs');
+const cors    = require('cors');
+const path    = require('path');
 
-const app = express();
-const port = 3000;
+const app  = express();
+const PORT = process.env.PORT || 3000;
 
-// Autoriser le CORS
+// ── MIDDLEWARES ───────────────────────────────────────────
 app.use(cors({ origin: '*' }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.use(express.json()); // Permet de lire le req.body
+// Serveur les fichiers statiques du Frontend
+app.use(express.static(path.join(__dirname, '..', 'Frontend')));
 
-const userRouter = require('./router/UserRouter'); 
-app.use('/api/users', userRouter);
+// ── ROUTES API ────────────────────────────────────────────
+app.use('/api', require('./routes/api'));
 
-// --- VÉRIFICATION DES CHEMINS ---
-const directoryToServe = path.join(__dirname, 'assets');
-console.log("------------------------------------------");
-console.log("Dossier cherché :", directoryToServe);
-console.log("Le dossier existe-t-il ? :", fs.existsSync(directoryToServe));
-console.log("------------------------------------------");
+// ── ROUTE FALLBACK (SPA) ──────────────────────────────────
+// Toute route non-API renvoie index.html
+app.get(/^(?!\/api).*/, (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'Frontend', 'index.html'));
+});
 
-// Configuration du dossier statique
-app.use('/assets', express.static(directoryToServe));
-
-// Routes API
-const objectRouter = require('./router/Object');
-app.use('/api', objectRouter);
-
-app.listen(port, () => console.log(`🚀 Server running on http://localhost:${port}`));
+// ── DÉMARRAGE ─────────────────────────────────────────────
+app.listen(PORT, () => {
+  console.log(`\n🚀 MAXIBAZARD démarré sur http://localhost:${PORT}`);
+  console.log(`   API      → http://localhost:${PORT}/api/products`);
+  console.log(`   Frontend → http://localhost:${PORT}/index.html\n`);
+});

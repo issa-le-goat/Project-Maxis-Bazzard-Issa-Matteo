@@ -13,56 +13,42 @@
   <nav class="navbar" role="navigation" aria-label="Navigation principale">
     <div class="navbar__inner">
       <a href="index.html" class="navbar__logo">MAXI<span>BAZARD</span></a>
-
       <button class="navbar__burger" id="burger-btn" aria-label="Menu" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
-
       <div class="navbar__links" id="nav-links">
-        <a href="index.html" class="navbar__link navbar__link--active">🛍️ Catalogue</a>
+        <a href="index.html"     class="navbar__link navbar__link--active">🛍️ Catalogue</a>
         <a href="favorites.html" class="navbar__link">
-          ♥ Favoris
-          <span class="navbar__badge navbar__fav-badge" id="fav-count">0</span>
+          ♥ Favoris <span class="navbar__badge navbar__fav-badge" id="fav-count">0</span>
         </a>
         <a href="cart.html" class="navbar__link">
-          🛒 Panier
-          <span class="navbar__badge" id="cart-count">0</span>
+          🛒 Panier <span class="navbar__badge" id="cart-count">0</span>
         </a>
       </div>
     </div>
   </nav>
 
   <!-- ── HERO ────────────────────────────────────────────── -->
-  <section class="catalog-hero" aria-label="Bienvenue">
+  <section class="catalog-hero">
     <div class="catalog-hero__inner container">
       <h1 class="catalog-hero__title">Les objets <span>vraiment</span> insolites</h1>
-      <p class="catalog-hero__sub">Mini aspirateurs, parapluie-chaussures, surligneurs charcuterie… Bienvenue dans le bizarre.</p>
+      <p class="catalog-hero__sub">17 produits décalés, plusieurs variantes par article. Bienvenue chez MAXIBAZARD.</p>
     </div>
   </section>
 
   <!-- ── FILTRES & TRI ────────────────────────────────────── -->
-  <div class="catalog-controls" role="search" aria-label="Filtres et tri">
+  <div class="catalog-controls">
     <div class="controls-inner">
 
       <div class="filter-group">
-        <label class="filter-label" for="filter-gender">Genre</label>
-        <select class="select-control" id="filter-gender">
-          <option value="all">Tous</option>
-          <option value="Homme">Homme</option>
-          <option value="Femme">Femme</option>
-          <option value="Unisexe">Unisexe</option>
+        <label class="filter-label" for="filter-genre">Catégorie</label>
+        <select class="select-control" id="filter-genre">
+          <option value="all">Toutes</option>
         </select>
       </div>
 
       <div class="filter-group">
-        <label class="filter-label" for="filter-type">Type</label>
-        <select class="select-control" id="filter-type">
-          <option value="all">Tous les types</option>
-        </select>
-      </div>
-
-      <div class="filter-group">
-        <label class="filter-label" for="filter-color">Couleur</label>
+        <label class="filter-label" for="filter-color">Variante</label>
         <select class="select-control" id="filter-color">
           <option value="all">Toutes</option>
         </select>
@@ -70,15 +56,14 @@
 
       <label class="promo-filter" for="filter-promo">
         <input type="checkbox" id="filter-promo">
-        <span>🏷️ Promos</span>
+        <span>🏷️ Promos uniquement</span>
       </label>
 
       <div class="controls-spacer"></div>
 
       <div class="controls-meta">
-        <span class="results-count" id="results-count">22 produits</span>
+        <span class="results-count" id="results-count">17 produits</span>
         <button id="reset-filters">Réinitialiser</button>
-
         <div class="filter-group">
           <label class="filter-label" for="sort-select">Trier</label>
           <select class="select-control" id="sort-select">
@@ -96,18 +81,16 @@
   <!-- ── CATALOGUE ────────────────────────────────────────── -->
   <main>
     <div class="catalog-section container">
-      <div class="product-grid" id="catalog-grid" aria-label="Liste des produits"></div>
+      <div class="product-grid" id="catalog-grid"></div>
     </div>
   </main>
 
-  <!-- ── FOOTER ───────────────────────────────────────────── -->
   <footer class="footer">
-    <p>© 2026 <strong>MAXIBAZARD</strong> — L'insolite, c'est notre métier.</p>
+    <p>© 2025 <strong>MAXIBAZARD</strong> — L'insolite, c'est notre métier.</p>
   </footer>
 
   <script type="module" src="js/catalog.js"></script>
   <script>
-    // Burger menu mobile
     document.getElementById('burger-btn').addEventListener('click', function () {
       const links = document.getElementById('nav-links');
       const open  = links.classList.toggle('is-open');

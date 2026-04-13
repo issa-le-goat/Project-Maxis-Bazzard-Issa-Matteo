@@ -1,16 +1,26 @@
-const mysql = require('mysql2');
+// =========================================================
+// MAXIBAZARD — Connexion MySQL (pool de connexions)
+// =========================================================
+const mysql  = require('mysql2/promise');
+require('dotenv').config();
 
-const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'root', // Par défaut sur MAMP (ou vide '' parfois)
-  database: 'maxibazard',
-  port: 3306 // Port MySQL par défaut de MAMP
+const pool = mysql.createPool({
+  host:     process.env.DB_HOST     || 'localhost',
+  port:     process.env.DB_PORT     || 3306,
+  user:     process.env.DB_USER     || 'root',
+  password: process.env.DB_PASSWORD || 'root',
+  database: process.env.DB_NAME     || 'maxibazard',
+  waitForConnections: true,
+  connectionLimit:    10,
+  charset: 'utf8mb4'
 });
 
-connection.connect((err) => {
-  if (err) throw err;
-  console.log('Connecté à la base MySQL de MAMP !');
-});
+// Test de connexion au démarrage
+pool.getConnection()
+  .then(conn => {
+    console.log('✅ MySQL connecté — base :', process.env.DB_NAME || 'maxibazard');
+    conn.release();
+  })
+  .catch(err => console.error('❌ Erreur MySQL :', err.message));
 
-module.exports = connection;
+module.exports = pool;

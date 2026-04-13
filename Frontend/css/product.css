@@ -320,3 +320,43 @@
   .btn-fav-lg { justify-content: center; }
   .product-price-block { flex-direction: column; align-items: flex-start; }
 }
+
+/* ── ONGLETS COULEUR / VARIANTE ─────────────────────────── */
+.couleur-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.couleur-tab {
+  padding: 8px 16px;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: .85rem;
+  font-weight: 700;
+  cursor: pointer;
+  background: var(--color-surface);
+  color: var(--color-dark);
+  transition: var(--transition);
+}
+.couleur-tab:hover { border-color: var(--color-dark); }
+.couleur-tab--active {
+  border-color: var(--color-accent);
+  background: var(--color-accent);
+  color: #fff;
+}
+
+/* Taille épuisée */
+.size-btn--soldout {
+  opacity: .45;
+  cursor: not-allowed;
+  text-decoration: line-through;
+  position: relative;
+}
+.size-soldout-tag {
+  display: block;
+  font-size: .65rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  text-decoration: none;
+}
