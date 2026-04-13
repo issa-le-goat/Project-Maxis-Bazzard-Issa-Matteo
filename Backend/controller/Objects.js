@@ -1,26 +1,45 @@
 const db = require('../config/db');
 
 // --- 1. LOGIQUE POUR LE STOCK ---
-exports.updateStock = (req, res) => {
+exports.updateStock = async (req, res) => {
     const { id_objet, nom_taille, quantite_achetee } = req.body;
 
-    if (!id_objet || !nom_taille || !quantite_achetee) {
-        return res.status(400).json({ error: "Données manquantes." });
+    // 1. Validation des données
+    if (!id_objet || !nom_taille || quantite_achetee === undefined) {
+        return res.status(400).json({ error: "Données manquantes pour la mise à jour du stock." });
     }
 
-    const sql = `
-        UPDATE taille_objets 
-        SET Quantity = Quantity - ? 
-        WHERE Id_Objets = ? AND Name = ? AND Quantity >= ?
-    `;
+    console.log(`--> [STOCK] Mise à jour : Produit ${id_objet}, Taille ${nom_taille}, Quantité -${quantite_achetee}`);
 
-    db.query(sql, [quantite_achetee, id_objet, nom_taille, quantite_achetee], (err, result) => {
-        if (err) return res.status(500).json({ error: "Erreur SQL", details: err });
+    try {
+        const sql = `
+            UPDATE taille_objets 
+            SET Quantity = Quantity - ? 
+            WHERE Id_Objets = ? AND Name = ? AND Quantity >= ?
+        `;
+
+        // 2. Exécution avec await (spécifique à mysql2/promise)
+        const [result] = await db.query(sql, [
+            quantite_achetee, 
+            id_objet, 
+            nom_taille, 
+            quantite_achetee
+        ]);
+
+        // 3. Vérification si une ligne a été modifiée
         if (result.affectedRows === 0) {
-            return res.status(400).json({ error: "Stock insuffisant ou variante introuvable." });
+            return res.status(400).json({ 
+                error: "Stock insuffisant ou variante introuvable." 
+            });
         }
+
+        console.log("--> [STOCK] ✅ Succès");
         res.json({ message: "Stock mis à jour avec succès !" });
-    });
+
+    } catch (error) {
+        console.error("❌ Erreur SQL lors de l'update stock :", error.message);
+        res.status(500).json({ error: "Erreur serveur lors de la mise à jour du stock" });
+    }
 };
 
 // --- 2. LOGIQUE POUR TOUS LES OBJETS ---
