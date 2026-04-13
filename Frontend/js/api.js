@@ -5,8 +5,8 @@
 //   - /api/*  → routes/api.js (session_id based)
 // =========================================================
 
-const API_BASE  = 'http://localhost:3000/api';
-const USER_BASE = 'http://localhost:3000/user';
+const API_BASE  = 'http://localhost:3306/api';
+const USER_BASE = 'http://localhost:3306/user';
 
 // ── Session ID anonyme ────────────────────────────────────
 export function getSessionId() {

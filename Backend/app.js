@@ -19,7 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '..', 'Frontend')));
 
 // Assets images (dossier séparé au même niveau que Backend/ et Frontend/)
-// Accessible via : http://localhost:3000/assets/images/BeureCole/BeureColle_Doux_1.jpg
+// Accessible via : http://localhost:3306/assets/images/BeureCole/BeureColle_Doux_1.jpg
 app.use('/assets', express.static(path.join(__dirname, '..', 'assets')));
 
 // ── ROUTES API ────────────────────────────────────────────
