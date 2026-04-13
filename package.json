@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "@xyflow/react": "^12.10.2"
+    "@xyflow/react": "^12.10.2",
+    "bcrypt": "^6.0.0"
   }
 }

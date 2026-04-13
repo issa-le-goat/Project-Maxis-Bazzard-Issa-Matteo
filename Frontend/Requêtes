@@ -659,3 +659,38 @@ INSERT INTO `taille_objets` (`Id_Objets`, `Id_Couleurs`, `Name`, `Quantity`) VAL
 (15, 35, 'S', 15), (15, 35, 'M', 30), (15, 35, 'L', 20), (15, 35, 'XL', 7);
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+-- ==========================================================
+-- CRÉATION DU SYSTÈME UTILISATEUR ET LISTES
+-- ==========================================================
+
+USE maxibazard;
+
+-- 1. Table des Utilisateurs
+CREATE TABLE IF NOT EXISTS users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(100) NOT NULL,
+    code VARCHAR(255) NOT NULL, -- On stockera le mot de passe (haché plus tard)
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 2. Table des Favoris (Lien entre User et Objects)
+CREATE TABLE IF NOT EXISTS favoris (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    object_id INT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (object_id) REFERENCES objects(id) ON DELETE CASCADE
+);
+
+-- 3. Table du Panier (Lien entre User et Objects)
+CREATE TABLE IF NOT EXISTS panier (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    object_id INT NOT NULL,
+    quantite INT DEFAULT 1,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (object_id) REFERENCES objects(id) ON DELETE CASCADE
+);
+
+-- pour l'extension de criptage npm install bcrypt

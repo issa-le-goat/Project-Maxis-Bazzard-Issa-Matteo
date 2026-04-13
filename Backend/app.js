@@ -11,6 +11,9 @@ app.use(cors({ origin: '*' }));
 
 app.use(express.json()); // Permet de lire le req.body
 
+const userRouter = require('./router/UserRouter'); 
+app.use('/api/users', userRouter);
+
 // --- VÉRIFICATION DES CHEMINS ---
 const directoryToServe = path.join(__dirname, 'assets');
 console.log("------------------------------------------");
