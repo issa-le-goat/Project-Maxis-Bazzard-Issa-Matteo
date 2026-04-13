@@ -51,7 +51,7 @@ function render() {
     row.className = 'cart-row';
     row.innerHTML = `
       <div class="cart-product">
-        <img src="${item.productImage}" alt="${item.productNom}" class="cart-thumb">
+        <img src="${item.productImage}" alt="${item.productNom}" class="cart-thumb" >
         <div class="cart-product-info">
           <a href="product.html?id=${item.productId}" class="cart-product-name">${item.productNom}</a>
           <div class="cart-product-options">

@@ -1,11 +1,15 @@
 // =========================================================
 // MAXIBAZARD — Client API (Frontend → Backend Express)
+// Deux systèmes :
+//   - /user/* → UserRouter (signup, login, favoris, panier par user_id)
+//   - /api/*  → routes/api.js (session_id based)
 // =========================================================
 
-const API_BASE = 'http://localhost:3000/api';
+const API_BASE  = 'http://localhost:3000/api';
+const USER_BASE = 'http://localhost:3000/user';
 
-// ── Session ID (identifiant anonyme persistant) ───────────
-function getSessionId() {
+// ── Session ID anonyme ────────────────────────────────────
+export function getSessionId() {
   let sid = localStorage.getItem('maxibazard_session');
   if (!sid) {
     sid = 'sid-' + Date.now() + '-' + Math.random().toString(36).slice(2);
@@ -14,84 +18,76 @@ function getSessionId() {
   return sid;
 }
 
-// ── Headers communs ───────────────────────────────────────
-function headers() {
-  return {
-    'Content-Type': 'application/json',
-    'X-Session-ID': getSessionId()
-  };
+// ── User ID connecté ──────────────────────────────────────
+export function getCurrentUser() {
+  const raw = localStorage.getItem('maxibazard_user');
+  return raw ? JSON.parse(raw) : null;
+}
+export function setCurrentUser(user) {
+  localStorage.setItem('maxibazard_user', JSON.stringify(user));
+}
+export function logout() {
+  localStorage.removeItem('maxibazard_user');
+  window.location.href = 'login.html';
 }
 
-// ── Helper fetch ──────────────────────────────────────────
-async function apiFetch(path, options = {}) {
-  const res = await fetch(API_BASE + path, {
-    headers: headers(),
+// ── Fetch helper ──────────────────────────────────────────
+async function apiFetch(base, path, options = {}) {
+  const res = await fetch(base + path, {
+    headers: { 'Content-Type': 'application/json', 'X-Session-ID': getSessionId(), ...options.headers },
     ...options
   });
   const data = await res.json();
-  if (!res.ok) throw new Error(data.message || 'Erreur API');
+  if (!res.ok) throw new Error(data.message || data.error || 'Erreur API');
   return data;
 }
 
-// ── PRODUITS ──────────────────────────────────────────────
-export const productsAPI = {
-  getAll: (params = {}) => {
-    const qs = new URLSearchParams(params).toString();
-    return apiFetch('/products' + (qs ? '?' + qs : ''));
-  },
-  getById: (id)      => apiFetch(`/products/${id}`),
-  getSimilar: (id)   => apiFetch(`/products/${id}/similar`),
-  getGenres: ()      => apiFetch('/products/genres'),
-  deductStock: (items) => apiFetch('/products/stock', {
-    method: 'PATCH',
-    body: JSON.stringify(items)
+// ── AUTH (UserRouter) ─────────────────────────────────────
+export const authAPI = {
+  signup: (nom, code) => apiFetch(USER_BASE, '/signup', {
+    method: 'POST', body: JSON.stringify({ nom, code })
+  }),
+  login: (nom, code) => apiFetch(USER_BASE, '/login', {
+    method: 'POST', body: JSON.stringify({ nom, code })
   })
 };
 
-// ── PANIER ────────────────────────────────────────────────
+// ── PRODUITS (/api/products) ──────────────────────────────
+export const productsAPI = {
+  getAll:    (params = {}) => apiFetch(API_BASE, '/products?' + new URLSearchParams(params)),
+  getById:   (id)          => apiFetch(API_BASE, `/products/${id}`),
+  getSimilar:(id)          => apiFetch(API_BASE, `/products/${id}/similar`),
+  getGenres: ()            => apiFetch(API_BASE, '/products/genres'),
+};
+
+// ── PANIER SESSION (/api/cart) ────────────────────────────
 export const cartAPI = {
-  get: () => apiFetch('/cart'),
-  add: (productId, couleurId, tailleId, quantity) =>
-    apiFetch('/cart', {
-      method: 'POST',
-      body: JSON.stringify({ productId, couleurId, tailleId, quantity })
-    }),
-  update: (panierItemId, quantity) =>
-    apiFetch(`/cart/${panierItemId}`, {
-      method: 'PATCH',
-      body: JSON.stringify({ quantity })
-    }),
-  remove: (panierItemId) =>
-    apiFetch(`/cart/${panierItemId}`, { method: 'DELETE' }),
-  clear: () =>
-    apiFetch('/cart', { method: 'DELETE' })
+  get:    ()                               => apiFetch(API_BASE, '/cart'),
+  add:    (productId, couleurId, tailleId, quantity) =>
+    apiFetch(API_BASE, '/cart', { method: 'POST', body: JSON.stringify({ productId, couleurId, tailleId, quantity }) }),
+  update: (panierItemId, quantity)         =>
+    apiFetch(API_BASE, `/cart/${panierItemId}`, { method: 'PATCH', body: JSON.stringify({ quantity }) }),
+  remove: (panierItemId)                   =>
+    apiFetch(API_BASE, `/cart/${panierItemId}`, { method: 'DELETE' }),
+  clear:  ()                               =>
+    apiFetch(API_BASE, '/cart', { method: 'DELETE' })
 };
 
-// ── FAVORIS ───────────────────────────────────────────────
+// ── FAVORIS SESSION (/api/favorites) ─────────────────────
 export const favoritesAPI = {
-  get: ()          => apiFetch('/favorites'),
-  add: (productId) => apiFetch('/favorites', {
-    method: 'POST',
-    body: JSON.stringify({ productId })
-  }),
-  remove: (productId) => apiFetch(`/favorites/${productId}`, { method: 'DELETE' })
+  get:    ()          => apiFetch(API_BASE, '/favorites'),
+  add:    (productId) => apiFetch(API_BASE, '/favorites', { method: 'POST', body: JSON.stringify({ productId }) }),
+  remove: (productId) => apiFetch(API_BASE, `/favorites/${productId}`, { method: 'DELETE' })
 };
 
-// ── COMMANDES & ADRESSES ──────────────────────────────────
+// ── COMMANDES & ADRESSES (/api/orders, /api/addresses) ───
 export const ordersAPI = {
-  getAll: () => apiFetch('/orders'),
-  place: (address, saveAddress = false) =>
-    apiFetch('/orders', {
-      method: 'POST',
-      body: JSON.stringify({ address, saveAddress })
-    })
+  getAll: ()                      => apiFetch(API_BASE, '/orders'),
+  place:  (address, saveAddress)  =>
+    apiFetch(API_BASE, '/orders', { method: 'POST', body: JSON.stringify({ address, saveAddress }) })
 };
-
 export const addressesAPI = {
-  getAll: () => apiFetch('/addresses'),
-  save:   (addr) => apiFetch('/addresses', {
-    method: 'POST',
-    body: JSON.stringify(addr)
-  }),
-  delete: (id) => apiFetch(`/addresses/${id}`, { method: 'DELETE' })
+  getAll: ()    => apiFetch(API_BASE, '/addresses'),
+  save:   (addr)=> apiFetch(API_BASE, '/addresses', { method: 'POST', body: JSON.stringify(addr) }),
+  delete: (id)  => apiFetch(API_BASE, `/addresses/${id}`, { method: 'DELETE' })
 };

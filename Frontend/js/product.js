@@ -59,7 +59,7 @@ function renderProduct(p) {
   // Miniatures initiales (couleur 0)
   const thumbsHTML = couleur0.images.map((img, i) => `
     <button class="thumb${i === 0 ? ' thumb--active' : ''}" data-index="${i}" aria-label="Image ${i+1}">
-      <img src="${img.chemin}" alt="miniature ${i+1}" loading="lazy">
+      <img src="${img.chemin}" alt="miniature ${i+1}" loading="lazy" >
     </button>`).join('');
 
   // Tailles initiales (couleur 0)
@@ -77,7 +77,7 @@ function renderProduct(p) {
         <div class="gallery-main">
           <button class="carousel-arrow carousel-arrow--prev" id="prev-btn">&#8592;</button>
           <div class="gallery-main-img-wrap">
-            <img id="main-img" src="${getMainImage(couleur0)}" alt="${p.nom}" class="gallery-main-img">
+            <img id="main-img" src="${getMainImage(couleur0)}" alt="${p.nom}" class="gallery-main-img" >
             ${p.reduction > 0 ? `<span class="gallery-badge">-${p.reduction}%</span>` : ''}
           </div>
           <button class="carousel-arrow carousel-arrow--next" id="next-btn">&#8594;</button>
@@ -252,7 +252,7 @@ function updateCarousel(images, idx) {
   const thumbsContainer = document.getElementById('gallery-thumbs');
   thumbsContainer.innerHTML = images.map((img, i) => `
     <button class="thumb${i === idx ? ' thumb--active' : ''}" data-index="${i}">
-      <img src="${img.chemin}" alt="miniature ${i+1}" loading="lazy">
+      <img src="${img.chemin}" alt="miniature ${i+1}" loading="lazy" >
     </button>`).join('');
 
   // Réattacher les events du carrousel avec les nouvelles images
@@ -368,6 +368,7 @@ function renderSimilar(current) {
   }
 
   similar.forEach(p => {
+    
     const mainImg  = (p.couleurs[0].images.find(i => i.isMain) || p.couleurs[0].images[0])?.chemin || '';
     const hoverImg = p.couleurs[0].images.filter(i => !i.isMain)[0]?.chemin || mainImg;
     const card = document.createElement('article');
@@ -376,8 +377,8 @@ function renderSimilar(current) {
       <a href="product.html?id=${p.id}" class="card-img-link">
         <div class="card-img-wrap">
           ${p.reduction > 0 ? `<span class="card-badge">-${p.reduction}%</span>` : ''}
-          <img src="${mainImg}"  alt="${p.nom}" class="card-img card-img--main"  loading="lazy">
-          <img src="${hoverImg}" alt="${p.nom}" class="card-img card-img--hover" loading="lazy">
+          <img src="${mainImg}"  alt="${p.nom}" class="card-img card-img--main"  loading="lazy" >
+          <img src="${hoverImg}" alt="${p.nom}" class="card-img card-img--hover" loading="lazy" >
         </div>
       </a>
       <div class="card-body">

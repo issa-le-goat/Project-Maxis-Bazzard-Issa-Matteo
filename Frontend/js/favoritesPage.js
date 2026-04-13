@@ -43,8 +43,8 @@ function render() {
       <a href="product.html?id=${p.id}" class="card-img-link">
         <div class="card-img-wrap">
           ${p.reduction > 0 ? `<span class="card-badge">-${p.reduction}%</span>` : ''}
-          <img src="${mainImg}"  alt="${p.nom}" class="card-img card-img--main"  loading="lazy">
-          <img src="${hoverImg}" alt="${p.nom}" class="card-img card-img--hover" loading="lazy">
+          <img src="${mainImg}"  alt="${p.nom}" class="card-img card-img--main"  loading="lazy" >
+          <img src="${hoverImg}" alt="${p.nom}" class="card-img card-img--hover" loading="lazy" >
         </div>
       </a>
       <div class="card-body">

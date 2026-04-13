@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inscription — MAXIBAZARD</title>
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/auth.css">
+</head>
+<body class="auth-page">
+
+  <nav class="navbar">
+    <div class="navbar__inner">
+      <a href="index.html" class="navbar__logo">MAXI<span>BAZARD</span></a>
+      <div class="navbar__links" id="nav-links">
+        <a href="index.html" class="navbar__link">🛍️ Catalogue</a>
+        <a href="cart.html" class="navbar__link">
+          🛒 Panier <span class="navbar__badge" id="cart-count">0</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="auth-main">
+    <div class="auth-card">
+
+      <a href="index.html" class="auth-logo">MAXI<span>BAZARD</span></a>
+
+      <div>
+        <h1 class="auth-title">Rejoindre le bazar 🎉</h1>
+        <p class="auth-subtitle">Créez un compte pour sauvegarder vos favoris et suivre vos commandes</p>
+      </div>
+
+      <div id="auth-error"   class="auth-error"></div>
+      <div id="auth-success" class="auth-success"></div>
+
+      <form id="signup-form" class="auth-form" novalidate>
+
+        <div class="auth-field">
+          <label class="auth-label" for="signup-nom">Nom d'utilisateur <span style="color:var(--color-accent)">*</span></label>
+          <input class="auth-input" type="text" id="signup-nom"
+                 placeholder="Choisissez un pseudo unique" autocomplete="username" required>
+        </div>
+
+        <div class="auth-field">
+          <label class="auth-label" for="signup-code">Mot de passe <span style="color:var(--color-accent)">*</span></label>
+          <input class="auth-input" type="password" id="signup-code"
+                 placeholder="6 caractères minimum" autocomplete="new-password" required minlength="6">
+        </div>
+
+        <div class="auth-field">
+          <label class="auth-label" for="signup-confirm">Confirmer le mot de passe <span style="color:var(--color-accent)">*</span></label>
+          <input class="auth-input" type="password" id="signup-confirm"
+                 placeholder="Répétez le mot de passe" autocomplete="new-password" required>
+        </div>
+
+        <button type="submit" class="auth-submit" id="signup-btn">
+          <span class="auth-submit-text">Créer mon compte</span>
+          <span class="auth-submit-loader"></span>
+        </button>
+
+      </form>
+
+      <div class="auth-divider">ou</div>
+
+      <div class="auth-switch">
+        Déjà un compte ?
+        <a href="login.html">Se connecter</a>
+      </div>
+
+      <a href="index.html" class="auth-guest">Continuer sans compte →</a>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>© 2025 <strong>MAXIBAZARD</strong> — L'insolite, c'est notre métier.</p>
+  </footer>
+
+  <script type="module" src="js/auth.js"></script>
+  <script type="module">
+    import { updateCartBadge } from './js/utils/cart.js';
+    updateCartBadge();
+  </script>
+</body>
+</html>
